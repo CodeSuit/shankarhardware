@@ -26,7 +26,7 @@
                         primary: {
                             50: '#f0fdf4',
                             100: '#dcfce7',
-                            500: '#22c55e',
+                            500: '#cf9023',
                             600: '#16a34a', // Brand Green
                             700: '#15803d',
                             900: '#14532d', // Deep Green
@@ -59,9 +59,9 @@
         }
 
         .filter-btn.active {
-            background-color: #16a34a; 
+            background-color: #857fda; 
             color: white;
-            border-color: #16a34a;
+            border-color: #df9137;
         }
 
         /* SPA Transition Classes */
@@ -264,7 +264,7 @@
                     <div class="lg:w-1/2 relative">
                         <div class="relative rounded-2xl overflow-hidden shadow-2xl">
                             <!-- Real Unsplash Image of agriculture/hardware -->
-                            <img src="https://images.unsplash.com/photo-1595842898687-0b5c1064dbbf?w=800&q=80" alt="Indian Agriculture" class="w-full h-auto object-cover aspect-[4/3]">
+                            <img src="https://images.unsplash.com/photo-1595842898687-0b5c1064dbbf?w=800&q=80" alt="Indian Agriculture" loading="lazy" class="w-full h-auto object-cover aspect-[4/3]">
                         </div>
                         <!-- Badge -->
                         <div class="absolute -bottom-6 -right-6 md:bottom-10 md:-right-10 bg-primary-600 text-white p-6 rounded-2xl shadow-xl hidden sm:block border-4 border-white">
@@ -332,7 +332,7 @@
                                     </div>
                                     <div>
                                         <h4 class="font-semibold text-lg">Phone</h4>
-                                        <p class="text-primary-100 mt-1">+91 7052789696<br><span class="text-sm opacity-80">Mon-Sat, 9:00 AM - 7:00 PM IST</span></p>
+                                        <p class="text-primary-100 mt-1"><a href="tel:+917052789696" class="hover:text-white underline-offset-2 hover:underline">+91 7052789696</a><br><span class="text-sm opacity-80">Mon-Sat, 9:00 AM - 7:00 PM IST</span></p>
                                     </div>
                                 </div>
                                 <div class="flex items-start gap-4">
@@ -341,9 +341,7 @@
                                     </div>
                                     <div>
                                       <h4 class="font-semibold text-lg">Email</h4>
-<p class="text-primary-100 mt-1 break-all">
-    maheshpawar@shankarhardware.indevs.in
-</p>
+<p class="text-primary-100 mt-1 break-all"><a href="mailto:maheshpawar@shankarhardware.indevs.in" class="hover:text-white underline-offset-2 hover:underline">maheshpawar@shankarhardware.indevs.in</a></p>
 
                                     </div>
                                 </div>
@@ -358,14 +356,14 @@
                         <!-- Success Message -->
                         <div id="form-success" class="hidden mb-6 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg relative" role="alert">
                             <strong class="font-bold"><i class="fa-solid fa-check-circle mr-2"></i>Thank you!</strong>
-                            <span class="block sm:inline">Your enquiry has been submitted. Our sales team will call you shortly.</span>
+                            <span class="block sm:inline">Your email app should open with the enquiry details.</span>
                         </div>
 
                         <form id="contact-form" class="space-y-5">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-                                    <input type="text" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors outline-none bg-gray-50 focus:bg-white" placeholder="Ramesh Patel">
+                                    <input id="customer-name" name="name" id="full-name" name="fullName" type="text" autocomplete="name" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors outline-none bg-gray-50 focus:bg-white" placeholder="Ramesh Patel">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number (10 digits)</label>
@@ -373,13 +371,13 @@
                                         <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-100 text-gray-500 text-sm">
                                           +91
                                         </span>
-                                        <input type="tel" pattern="[0-9]{10}" required class="flex-1 min-w-0 block w-full px-4 py-3 rounded-none rounded-r-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors outline-none bg-gray-50 focus:bg-white" placeholder="9876543210">
+                                        <input id="customer-phone" name="phone" inputmode="numeric" maxlength="10" id="phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" pattern="[0-9]{10}" maxlength="10" required class="flex-1 min-w-0 block w-full px-4 py-3 rounded-none rounded-r-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors outline-none bg-gray-50 focus:bg-white" placeholder="9876543210">
                                     </div>
                                 </div>
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Enquiry Type</label>
-                                <select class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors outline-none bg-gray-50 focus:bg-white">
+                                <select id="enquiry-type" name="enquiryType" id="enquiry-type" name="enquiryType" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors outline-none bg-gray-50 focus:bg-white">
                                     <option>Water Pumps & Spares</option>
                                     <option>Construction Tools</option>
                                     <option>Nuts, Bolts & Fasteners</option>
@@ -389,7 +387,7 @@
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Details</label>
-                                <textarea rows="4" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors outline-none resize-none bg-gray-50 focus:bg-white" placeholder="Please mention quantities or specific parts needed..."></textarea>
+                                <textarea id="enquiry-details" name="details" id="details" name="details" rows="4" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors outline-none resize-none bg-gray-50 focus:bg-white" placeholder="Please mention quantities or specific parts needed..."></textarea>
                             </div>
                             <button type="submit" class="w-full bg-primary-600 hover:bg-primary-700 text-white font-bold py-3.5 px-8 rounded-lg transition-colors shadow-md flex justify-center items-center gap-2">
                                 Submit Enquiry <i class="fa-solid fa-paper-plane"></i>
@@ -479,7 +477,7 @@
             </div>
             
             <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
-                <p>© 2024 Shankar Hardware India. All rights reserved.</p>
+                <p>© <span id="current-year"></span> Shankar Hardware India. All rights reserved.</p>
                 <p class="mt-2 md:mt-0">Built for durability.</p>
             </div>
         </div>
@@ -671,7 +669,7 @@
                     const cardHTML = `
                         <div class="product-card bg-white rounded-xl overflow-hidden border border-gray-100 flex flex-col group">
                             <div class="relative overflow-hidden">
-                                <img src="${product.image}" alt="${product.name}" class="w-full h-48 sm:h-56 object-cover transform group-hover:scale-105 transition-transform duration-500">
+                                <img src="${product.image}" alt="${product.name}" loading="lazy" decoding="async" class="w-full h-48 sm:h-56 object-cover transform group-hover:scale-105 transition-transform duration-500">
                                 <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-300"></div>
                                 <span class="absolute top-3 left-3 bg-white/95 backdrop-blur text-primary-700 text-xs font-bold px-3 py-1 rounded shadow-sm uppercase tracking-wider">
                                     ${badgeText}
@@ -684,7 +682,7 @@
                                 </div>
                                 <div class="mt-auto flex items-center justify-between border-t border-gray-50 pt-4">
                                     <span class="font-black text-2xl text-gray-900 tracking-tight">${inrFormat.format(product.price)}</span>
-                                    <button class="bg-primary-50 text-primary-700 hover:bg-primary-600 hover:text-white w-10 h-10 rounded-lg flex items-center justify-center transition-colors shadow-sm" title="Add to Enquiry">
+                                    <button type="button" class="add-enquiry-btn bg-primary-50 text-primary-700 hover:bg-primary-600 hover:text-white w-10 h-10 rounded-lg flex items-center justify-center transition-colors shadow-sm" title="Add to Enquiry" data-product-id="${product.id}">
                                         <i class="fa-solid fa-plus"></i>
                                     </button>
                                 </div>
@@ -721,35 +719,117 @@
             });
 
 
-            // 5. Contact Form Handling
+            // 5. Contact Form -> XML
             const contactForm = document.getElementById('contact-form');
             const formSuccess = document.getElementById('form-success');
 
+            window.selectedEnquiryProduct = '';
+
+            function escapeXml(value) {
+                return String(value ?? '')
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&apos;');
+            }
+
+            function createEnquiryXml(enquiry) {
+                return `<?xml version="1.0" encoding="UTF-8"?>
+<enquiries>
+    <enquiry>
+        <id>${escapeXml(enquiry.id)}</id>
+        <date>${escapeXml(enquiry.date)}</date>
+        <name>${escapeXml(enquiry.name)}</name>
+        <phone>${escapeXml(enquiry.phone)}</phone>
+        <type>${escapeXml(enquiry.type)}</type>
+        <details>${escapeXml(enquiry.details)}</details>
+        <product>${escapeXml(enquiry.product)}</product>
+        <status>New</status>
+    </enquiry>
+</enquiries>`;
+            }
+
+            function downloadXml(xmlText, filename) {
+                const blob = new Blob([xmlText], {
+                    type: 'application/xml;charset=utf-8'
+                });
+
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = filename;
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+
+                setTimeout(() => URL.revokeObjectURL(url), 1000);
+            }
+
             contactForm.addEventListener('submit', (e) => {
                 e.preventDefault();
-                
-                const submitBtn = contactForm.querySelector('button[type="submit"]');
-                const originalBtnText = submitBtn.innerHTML;
-                
-                submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Submitting...';
-                submitBtn.disabled = true;
-                submitBtn.classList.add('opacity-75');
 
-                // Simulate API call
+                const name = document.getElementById('customer-name').value.trim();
+                const phone = document.getElementById('customer-phone').value.trim();
+                const type = document.getElementById('enquiry-type').value;
+                const details = document.getElementById('enquiry-details').value.trim();
+
+                if (!/^[0-9]{10}$/.test(phone)) {
+                    alert('Please enter a valid 10-digit phone number.');
+                    document.getElementById('customer-phone').focus();
+                    return;
+                }
+
+                const enquiry = {
+                    id: 'ENQ-' + Date.now(),
+                    date: new Date().toISOString(),
+                    name,
+                    phone,
+                    type,
+                    details,
+                    product: window.selectedEnquiryProduct || ''
+                };
+
+                const xml = createEnquiryXml(enquiry);
+                downloadXml(xml, 'enquiries.xml');
+
+                formSuccess.querySelector('span').textContent =
+                    'Enquiry saved to enquiries.xml. The XML file has been downloaded.';
+                formSuccess.classList.remove('hidden');
+
+                contactForm.reset();
+                window.selectedEnquiryProduct = '';
+
                 setTimeout(() => {
-                    formSuccess.classList.remove('hidden');
-                    contactForm.reset();
-                    
-                    submitBtn.innerHTML = originalBtnText;
-                    submitBtn.disabled = false;
-                    submitBtn.classList.remove('opacity-75');
-
-                    setTimeout(() => {
-                        formSuccess.classList.add('hidden');
-                    }, 5000);
-                }, 1200);
+                    formSuccess.classList.add('hidden');
+                }, 6000);
             });
 
+            // Product + button -> Contact form
+            productsGrid.addEventListener('click', (event) => {
+                const button = event.target.closest('.add-enquiry-btn');
+                if (!button) return;
+
+                const product = products.find(
+                    p => p.id === Number(button.dataset.productId)
+                );
+
+                if (!product) return;
+
+                window.selectedEnquiryProduct =
+                    `${product.name} - ${inrFormat.format(product.price)}`;
+
+                window.location.hash = 'contact';
+
+                setTimeout(() => {
+                    const detailsField = document.getElementById('enquiry-details');
+                    if (detailsField) {
+                        detailsField.value =
+                            `Product: ${product.name}\nListed Price: ${inrFormat.format(product.price)}\n\n`;
+                        detailsField.focus();
+                    }
+                }, 150);
+            });
 
             // 6. Navbar styling on scroll (add slight shadow)
             const navbar = document.querySelector('nav');
@@ -760,6 +840,12 @@
                     navbar.classList.remove('shadow-md');
                 }
             });
+
+            // Keep the copyright year current.
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            const currentYear = document.getElementById('current-year');
+            if (currentYear) currentYear.textContent = new Date().getFullYear();
 
         });
     </script>
