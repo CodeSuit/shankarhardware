@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<enquiries>
+    <enquiry>
+        <id>ENQ-1759300000000</id>
+        <date>2026-10-01T09:00:00.000Z</date>
+        <name>Ramesh</name>
+        <phone>9876543210</phone>
+        <type>Water Pumps &amp; Spares</type>
+        <details>Need 2 HP pump</details>
+        <status>New</status>
+    </enquiry>
+</enquiries>
