@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Shankar Hardware - Enquiries</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 p-6">
+<div class="max-w-7xl mx-auto">
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+    <div><h1 class="text-3xl font-bold">Customer Enquiries</h1><p class="text-gray-500">Live enquiries stored in enquiries.xml</p></div>
+    <div class="flex gap-2"><button onclick="loadEnquiries()" class="px-4 py-2 rounded-lg bg-green-600 text-white">Refresh</button><a href="/enquiries.xml" target="_blank" class="px-4 py-2 rounded-lg bg-gray-800 text-white">Open XML</a></div>
+  </div>
+  <div id="message" class="mb-4"></div>
+  <div class="bg-white rounded-xl shadow overflow-x-auto">
+    <table class="min-w-full text-sm"><thead class="bg-gray-100"><tr><th class="p-3 text-left">ID</th><th class="p-3 text-left">Date</th><th class="p-3 text-left">Name</th><th class="p-3 text-left">Phone</th><th class="p-3 text-left">Type</th><th class="p-3 text-left">Product</th><th class="p-3 text-left">Details</th><th class="p-3 text-left">Status</th></tr></thead><tbody id="rows"></tbody></table>
+  </div>
+</div>
+<script>
+function esc(v){const d=document.createElement('div');d.textContent=v??'';return d.innerHTML;}
+async function loadEnquiries(){
+  const msg=document.getElementById('message'); const rows=document.getElementById('rows');
+  msg.innerHTML='<span class="text-gray-500">Loading...</span>';
+  try{
+    const r=await fetch('/api/enquiries',{cache:'no-store'}); const data=await r.json();
+    if(!data.success) throw new Error(data.message);
+    rows.innerHTML=data.enquiries.length?data.enquiries.map(e=>`<tr class="border-t align-top"><td class="p-3 font-semibold">${esc(e.id)}</td><td class="p-3 whitespace-nowrap">${esc(new Date(e.date).toLocaleString('en-IN'))}</td><td class="p-3">${esc(e.name)}</td><td class="p-3"><a class="text-green-700" href="tel:+91${esc(e.phone)}">${esc(e.phone)}</a></td><td class="p-3">${esc(e.type)}</td><td class="p-3">${esc(e.product)}</td><td class="p-3 max-w-md whitespace-pre-wrap">${esc(e.details)}</td><td class="p-3"><span class="px-2 py-1 rounded bg-green-100 text-green-700">${esc(e.status)}</span></td></tr>`).join(''):'<tr><td colspan="8" class="p-8 text-center text-gray-500">No enquiries yet.</td></tr>';
+    msg.innerHTML=`<span class="text-green-700">${data.enquiries.length} enquiry/enquiries found.</span>`;
+  }catch(e){msg.innerHTML=`<span class="text-red-600">${esc(e.message)}</span>`;}
+}
+loadEnquiries();
+</script>
+</body></html>
