@@ -1,853 +1,790 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shankar Hardware | Modern Farm & Build Solutions</title>
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind Config for Custom Theme Colors -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        primary: {
-                            50: '#f0fdf4',
-                            100: '#dcfce7',
-                            500: '#cf9023',
-                            600: '#16a34a', // Brand Green
-                            700: '#15803d',
-                            900: '#14532d', // Deep Green
-                        },
-                        accent: '#f59e0b', // Amber/Yellow for hardware feel
-                        dark: '#1e293b'
-                    }
-                }
-            }
-        }
-    </script>
-
-    <style>
-        /* Custom CSS */
-        body {
-            -webkit-tap-highlight-color: transparent;
-        }
-        .glass-nav {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(12px);
-        }
-        
-        .product-card {
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .product-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-
-        .filter-btn.active {
-            background-color: #857fda; 
-            color: white;
-            border-color: #df9137;
-        }
-
-        /* SPA Transition Classes */
-        .page-section {
-            display: none;
-            opacity: 0;
-            transition: opacity 0.4s ease-in-out;
-        }
-        .page-section.active {
-            display: block;
-            opacity: 1;
-        }
-        
-        .nav-link.active-link {
-            color: #16a34a;
-            font-weight: 600;
-        }
-        .nav-link.active-link::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: #16a34a;
-            border-radius: 2px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shankar Hardware & Agro Tech | Heavy Duty Farm & Construction Supplies | Sonwadi</title>
+  <meta name="description" content="Sonwadi's trusted hardware, farming water pumps, power tools, fasteners, and agricultural spares. Order directly via WhatsApp at +91 7058729696." />
+  
+  <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  
+  <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="font-sans text-gray-800 bg-gray-50 antialiased selection:bg-primary-500 selection:text-white flex flex-col min-h-screen">
+<body>
 
-    <!-- Navigation -->
-    <nav class="fixed w-full z-50 glass-nav border-b border-gray-200 shadow-sm transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-20 items-center">
-                <!-- Logo -->
-                <div class="flex-shrink-0 flex items-center">
-                    <a href="#home" class="flex items-center gap-2 group">
-                        <div class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center text-white group-hover:bg-primary-700 transition-colors shadow-md">
-                            <i class="fa-solid fa-tractor text-xl"></i>
-                        </div>
-                        <span class="font-bold text-2xl tracking-tight text-gray-900">Shankar<span class="text-primary-600">Hardware</span></span>
-                    </a>
-                </div>
+  <!-- Top Announcement & Contact Bar -->
+  <div class="top-announcement-bar">
+    <div class="container top-bar-content">
+      <div class="top-bar-left">
+        <span class="badge-status"><span class="pulse-dot"></span> Open Today: 9:00 AM – 7:00 PM</span>
+        <span class="top-separator">|</span>
+        <span class="top-location"><i class="fa-solid fa-location-dot"></i> Main Road, Sonwadi, Pune District, Maharashtra</span>
+      </div>
+      <div class="top-bar-right">
+        <a href="tel:+917058729696" class="top-link"><i class="fa-solid fa-phone"></i> +91 7058729696</a>
+        <a href="https://wa.me/917058729696?text=Hello%20Shankar%20Hardware%20Sonwadi%2C%20I%20have%20an%20inquiry%20regarding%20products." target="_blank" rel="noopener noreferrer" class="top-link whatsapp-top">
+          <i class="fa-brands fa-whatsapp"></i> Quick WhatsApp
+        </a>
+        <div class="lang-switcher">
+          <button id="langToggleBtn" class="lang-btn" title="मराठी मध्ये वाचा">
+            <i class="fa-solid fa-language"></i> <span id="currentLangLabel">मराठी</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex space-x-8 items-center">
-                    <div class="relative"><a href="#home" class="nav-link text-gray-600 hover:text-primary-600 font-medium transition-colors relative">Home</a></div>
-                    <div class="relative"><a href="#products" class="nav-link text-gray-600 hover:text-primary-600 font-medium transition-colors relative">Products</a></div>
-                    <div class="relative"><a href="#about" class="nav-link text-gray-600 hover:text-primary-600 font-medium transition-colors relative">About Us</a></div>
-                    <div class="relative"><a href="#contact" class="nav-link text-gray-600 hover:text-primary-600 font-medium transition-colors relative">Contact</a></div>
-                    <a href="#products" class="bg-primary-600 text-white px-6 py-2.5 rounded-full font-medium hover:bg-primary-700 transition-colors shadow-md hover:shadow-lg transform hover:-translate-y-0.5 duration-200">
-                        Shop Now
-                    </a>
-                </div>
+  <!-- Main Navigation Header -->
+  <header class="main-header" id="mainHeader">
+    <div class="container nav-container">
+      <!-- Brand Logo -->
+      <a href="#home" class="brand-logo" aria-label="Shankar Hardware Sonwadi Homepage">
+        <div class="logo-icon-wrap">
+          <i class="fa-solid fa-tractor"></i>
+        </div>
+        <div class="logo-text-wrap">
+          <span class="brand-title">SHANKAR <span class="highlight-text">HARDWARE</span></span>
+          <span class="brand-subtitle">& AGRO TECH • SONWADI</span>
+        </div>
+      </a>
 
-                <!-- Mobile Menu Button -->
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="text-gray-600 hover:text-primary-600 focus:outline-none p-2">
-                        <i class="fa-solid fa-bars text-2xl"></i>
-                    </button>
-                </div>
+      <!-- Search Bar in Header -->
+      <div class="header-search-bar">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text" id="headerSearchInput" placeholder="Search pumps, impact drills, claw hammers, bolts, PVC valves..." autocomplete="off" />
+        <button id="clearSearchBtn" class="clear-search-btn" style="display: none;"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <nav class="desktop-nav-menu" id="desktopNav">
+          <a href="#home" class="nav-item active" data-nav="home">Home</a>
+          <a href="#catalog" class="nav-item" data-nav="catalog">Products Catalog</a>
+          <a href="#bulk-order" class="nav-item" data-nav="bulk">Bulk Wholesale</a>
+          <a href="#about" class="nav-item" data-nav="about">About Store</a>
+          <a href="#contact" class="nav-item" data-nav="contact">Contact</a>
+        </nav>
+
+        <!-- Cart / WhatsApp Order Drawer Trigger -->
+        <button class="cart-trigger-btn" id="openCartBtn" aria-label="Open Order Cart">
+          <div class="cart-icon-box">
+            <i class="fa-solid fa-basket-shopping"></i>
+            <span class="cart-badge-count" id="cartCountBadge">0</span>
+          </div>
+          <div class="cart-btn-details">
+            <span class="cart-btn-label">Order List</span>
+            <span class="cart-btn-total" id="cartTotalSummary">₹0</span>
+          </div>
+        </button>
+
+        <!-- Mobile Hamburger Toggle -->
+        <button class="mobile-hamburger-btn" id="mobileMenuToggle" aria-label="Toggle Mobile Menu">
+          <i class="fa-solid fa-bars-staggered"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer Navigation -->
+    <div class="mobile-drawer" id="mobileDrawer">
+      <div class="mobile-drawer-header">
+        <div class="mobile-drawer-logo">
+          <i class="fa-solid fa-tractor"></i> Shankar Hardware
+        </div>
+        <button class="close-drawer-btn" id="closeMobileDrawer"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="mobile-search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="mobileSearchInput" placeholder="Search products or spares..." />
+      </div>
+      <nav class="mobile-links">
+        <a href="#home" class="mobile-nav-link active"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="#catalog" class="mobile-nav-link"><i class="fa-solid fa-boxes-stacked"></i> Products Catalog</a>
+        <a href="#bulk-order" class="mobile-nav-link"><i class="fa-solid fa-truck-ramp-box"></i> Bulk & Wholesale Tier</a>
+        <a href="#about" class="mobile-nav-link"><i class="fa-solid fa-store"></i> About Our Store</a>
+        <a href="#contact" class="mobile-nav-link"><i class="fa-solid fa-address-book"></i> Store Location & Hours</a>
+      </nav>
+      <div class="mobile-drawer-footer">
+        <a href="https://wa.me/917058729696?text=Hello%20Shankar%20Hardware%20Sonwadi%2C%20I%20need%20assistance%20with%20hardware%20order." class="btn-block whatsapp-btn-full" target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-whatsapp"></i> WhatsApp Order (7058729696)
+        </a>
+        <a href="tel:+917058729696" class="btn-block call-btn-full">
+          <i class="fa-solid fa-phone"></i> Call Direct: +91 7058729696
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Modern Hero Section -->
+    <section class="hero-section" id="home">
+      <div class="hero-overlay"></div>
+      <div class="container hero-container">
+        <div class="hero-content">
+          <div class="hero-pill-badge">
+            <i class="fa-solid fa-award"></i> Sonwadi's Trusted Agri & Industrial Hardware Since 2004
+          </div>
+          <h1 class="hero-title">
+            Heavy-Duty Tools, Farming Pumps & <span class="gradient-text">Hardware Solutions</span>
+          </h1>
+          <p class="hero-description">
+            Supplying genuine agricultural submersible pumps, high-precision power tools, industrial fasteners, and farm implements across Sonwadi, Daund, Pune, and Maharashtra at direct wholesale rates.
+          </p>
+
+          <!-- Action Buttons -->
+          <div class="hero-actions">
+            <a href="#catalog" class="btn btn-primary btn-large">
+              <i class="fa-solid fa-boxes-stacked"></i> Explore Inventory
+            </a>
+            <a href="https://wa.me/917058729696?text=Hello%20Shankar%20Hardware%20Sonwadi%2C%20I%20want%20to%20order%20products." target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-large">
+              <i class="fa-brands fa-whatsapp"></i> Instant WhatsApp Order
+            </a>
+          </div>
+
+          <!-- Quick Stats Counter Strip -->
+          <div class="hero-trust-strip">
+            <div class="trust-item">
+              <div class="trust-number">20+</div>
+              <div class="trust-text">Years Local Trust</div>
             </div>
+            <div class="trust-separator"></div>
+            <div class="trust-item">
+              <div class="trust-number">1,200+</div>
+              <div class="trust-text">Products in Stock</div>
+            </div>
+            <div class="trust-separator"></div>
+            <div class="trust-item">
+              <div class="trust-number">100%</div>
+              <div class="trust-text">Genuine Quality Brands</div>
+            </div>
+            <div class="trust-separator"></div>
+            <div class="trust-item">
+              <div class="trust-number">WhatsApp</div>
+              <div class="trust-text">Direct 1-Click Ordering</div>
+            </div>
+          </div>
         </div>
 
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 shadow-xl absolute w-full">
-            <div class="px-4 pt-2 pb-6 space-y-2">
-                <a href="#home" class="mobile-nav-link block px-4 py-3 rounded-md text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50">Home</a>
-                <a href="#products" class="mobile-nav-link block px-4 py-3 rounded-md text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50">Products</a>
-                <a href="#about" class="mobile-nav-link block px-4 py-3 rounded-md text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50">About Us</a>
-                <a href="#contact" class="mobile-nav-link block px-4 py-3 rounded-md text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50">Contact</a>
+        <!-- Hero Quick Order Floating Card -->
+        <div class="hero-featured-card">
+          <div class="quick-order-card">
+            <div class="card-header-badge">
+              <i class="fa-solid fa-bolt"></i> FAST QUOTE ON WHATSAPP
             </div>
-        </div>
-    </nav>
-
-    <!-- Main Content Area (SPA Pages Container) -->
-    <main class="flex-grow pt-20">
-        
-        <!-- HOME PAGE -->
-        <section id="home" class="page-section active">
-            <!-- Hero Section -->
-            <div class="relative bg-primary-900 overflow-hidden lg:h-[600px] flex items-center">
-                <div class="absolute inset-0 z-0">
-                    <img src="https://images.unsplash.com/photo-1592982537447-7440770cbfc9?w=1600&q=80" alt="Tractor in field" class="w-full h-full object-cover opacity-20">
-                    <div class="absolute inset-0 bg-gradient-to-r from-primary-900 via-primary-900/90 to-transparent"></div>
-                </div>
-                
-                <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-0 w-full">
-                    <div class="md:w-2/3 lg:w-1/2 text-white">
-                        <span class="inline-block py-1 px-3 rounded-full bg-accent/20 text-accent text-sm font-bold tracking-wider mb-4 border border-accent/30 uppercase">
-                            Premium Agri & Hardware
-                        </span>
-                        <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 leading-tight">
-                            Build & Grow with <span class="text-accent">Confidence.</span>
-                        </h1>
-                        <p class="text-lg md:text-xl text-primary-50 mb-8 font-light max-w-lg">
-                            Your trusted source for heavy-duty construction tools, farming water pumps, and essential hardware spares in India.
-                        </p>
-                        <div class="flex flex-col sm:flex-row gap-4">
-                            <a href="#products" class="bg-primary-500 hover:bg-primary-600 text-white px-8 py-4 rounded-lg font-bold text-lg transition-all shadow-lg hover:shadow-primary-500/30 flex items-center justify-center gap-2">
-                                View Catalog <i class="fa-solid fa-arrow-right"></i>
-                            </a>
-                            <a href="#contact" class="bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white hover:bg-white hover:text-primary-900 px-8 py-4 rounded-lg font-bold text-lg transition-all flex items-center justify-center">
-                                Bulk Enquiry
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Features Strip -->
-            <div class="bg-white py-12 border-b border-gray-100">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-gray-100">
-                        <div class="flex flex-col items-center p-4">
-                            <div class="w-16 h-16 bg-primary-50 text-primary-600 rounded-full flex items-center justify-center text-2xl mb-4">
-                                <i class="fa-solid fa-rupee-sign"></i>
-                            </div>
-                            <h3 class="font-bold text-xl mb-2 text-gray-900">Best Wholesale Rates</h3>
-                            <p class="text-gray-500 text-sm">Competitive pricing across India for farming spares and construction tools.</p>
-                        </div>
-                        <div class="flex flex-col items-center p-4">
-                            <div class="w-16 h-16 bg-primary-50 text-primary-600 rounded-full flex items-center justify-center text-2xl mb-4">
-                                <i class="fa-solid fa-shield-halved"></i>
-                            </div>
-                            <h3 class="font-bold text-xl mb-2 text-gray-900">Industrial Quality</h3>
-                            <p class="text-gray-500 text-sm">High-tensile nuts, robust pumps, and heavy-duty chains built to last.</p>
-                        </div>
-                        <div class="flex flex-col items-center p-4">
-                            <div class="w-16 h-16 bg-primary-50 text-primary-600 rounded-full flex items-center justify-center text-2xl mb-4">
-                                <i class="fa-solid fa-truck-fast"></i>
-                            </div>
-                            <h3 class="font-bold text-xl mb-2 text-gray-900">Pan-India Delivery</h3>
-                            <p class="text-gray-500 text-sm">Fast and reliable shipping to your farm, site, or local retail store.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <h3 class="quick-order-title">Order Anything in Seconds</h3>
+            <p class="quick-order-subtitle">Need specific pumps, borewell spares, tools or construction materials? Send list directly:</p>
             
-            <!-- Quick Category Link -->
-            <div class="py-20 bg-gray-50">
-                <div class="max-w-7xl mx-auto px-4 text-center">
-                    <h2 class="text-3xl font-bold mb-10 text-gray-900">Popular Categories</h2>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <a href="#products" onclick="window.activateCategory('pumps')" class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition border border-gray-100 group">
-                            <i class="fa-solid fa-water text-4xl text-primary-500 mb-4 group-hover:scale-110 transition-transform"></i>
-                            <h3 class="font-bold text-gray-800">Water Pumps</h3>
-                        </a>
-                        <a href="#products" onclick="window.activateCategory('tools')" class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition border border-gray-100 group">
-                            <i class="fa-solid fa-hammer text-4xl text-primary-500 mb-4 group-hover:scale-110 transition-transform"></i>
-                            <h3 class="font-bold text-gray-800">Tools & Drills</h3>
-                        </a>
-                        <a href="#products" onclick="window.activateCategory('hardware')" class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition border border-gray-100 group">
-                            <i class="fa-solid fa-screwdriver-wrench text-4xl text-primary-500 mb-4 group-hover:scale-110 transition-transform"></i>
-                            <h3 class="font-bold text-gray-800">Hardware & Fasteners</h3>
-                        </a>
-                        <a href="#products" onclick="window.activateCategory('agri')" class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition border border-gray-100 group">
-                            <i class="fa-solid fa-link text-4xl text-primary-500 mb-4 group-hover:scale-110 transition-transform"></i>
-                            <h3 class="font-bold text-gray-800">Ropes & Chains</h3>
-                        </a>
-                    </div>
-                </div>
+            <form id="heroQuickQuoteForm" class="hero-quick-form">
+              <div class="form-group">
+                <label for="heroClientName">Your Name / Farm / Business</label>
+                <input type="text" id="heroClientName" placeholder="e.g. Rahul Patil / Patil Farms, Sonwadi" required />
+              </div>
+              <div class="form-group">
+                <label for="heroItemsNeeded">Hardware / Spares Needed</label>
+                <textarea id="heroItemsNeeded" rows="2" placeholder="e.g. 2HP Submersible Pump, 50m Nylon Rope, 14 inch Pipe Wrench" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-whatsapp btn-block">
+                <i class="fa-brands fa-whatsapp"></i> Send to WhatsApp: 7058729696
+              </button>
+              <div class="guarantee-text">
+                <i class="fa-solid fa-shield-halved"></i> Direct response from Mahesh Pawar within 15 minutes.
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Value Proposition Banner (Fixed 4-Column Grid) -->
+    <section class="value-prop-section">
+      <div class="container">
+        <div class="value-grid">
+          <div class="value-card">
+            <div class="value-icon-box bg-blue">
+              <i class="fa-solid fa-tags"></i>
             </div>
-        </section>
-
-        <!-- PRODUCTS PAGE -->
-        <section id="products" class="page-section py-12 bg-gray-50 min-h-[80vh]">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-10">
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Complete Inventory</h2>
-                    <p class="max-w-2xl text-gray-500 mx-auto">Explore our wide range of farming implements, construction tools, and hardware materials. All prices in Indian Rupees (₹).</p>
-                </div>
-
-                <!-- Filters -->
-                <div class="flex flex-wrap justify-center gap-2 md:gap-3 mb-10" id="filter-container">
-                    <button class="filter-btn active px-4 py-2 text-sm md:text-base md:px-6 md:py-2.5 rounded-full border-2 border-gray-200 font-semibold text-gray-600 hover:border-primary-600 hover:text-primary-600 transition-colors" data-filter="all">All Items</button>
-                    <button class="filter-btn px-4 py-2 text-sm md:text-base md:px-6 md:py-2.5 rounded-full border-2 border-gray-200 font-semibold text-gray-600 hover:border-primary-600 hover:text-primary-600 transition-colors" data-filter="tools">Hand & Power Tools</button>
-                    <button class="filter-btn px-4 py-2 text-sm md:text-base md:px-6 md:py-2.5 rounded-full border-2 border-gray-200 font-semibold text-gray-600 hover:border-primary-600 hover:text-primary-600 transition-colors" data-filter="pumps">Pumps & Spares</button>
-                    <button class="filter-btn px-4 py-2 text-sm md:text-base md:px-6 md:py-2.5 rounded-full border-2 border-gray-200 font-semibold text-gray-600 hover:border-primary-600 hover:text-primary-600 transition-colors" data-filter="hardware">Screws, Nuts & Bolts</button>
-                    <button class="filter-btn px-4 py-2 text-sm md:text-base md:px-6 md:py-2.5 rounded-full border-2 border-gray-200 font-semibold text-gray-600 hover:border-primary-600 hover:text-primary-600 transition-colors" data-filter="agri">Ropes & Chains</button>
-                </div>
-
-                <!-- Products Grid (Populated by JS) -->
-                <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
-                    <!-- Loading state -->
-                    <div class="col-span-full text-center py-12 text-gray-400">
-                        <i class="fa-solid fa-spinner fa-spin text-3xl mb-3"></i>
-                        <p>Loading catalog...</p>
-                    </div>
-                </div>
+            <div class="value-text">
+              <h4>Direct Wholesale Rates</h4>
+              <p>Transparent pricing with bulk discounts for farmers, contractors, and retail dealers.</p>
             </div>
-        </section>
+          </div>
 
-        <!-- ABOUT US PAGE -->
-        <section id="about" class="page-section py-16 bg-white min-h-[80vh]">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex flex-col lg:flex-row items-center gap-16">
-                    <!-- Image Side -->
-                    <div class="lg:w-1/2 relative">
-                        <div class="relative rounded-2xl overflow-hidden shadow-2xl">
-                            <!-- Real Unsplash Image of agriculture/hardware -->
-                            <img src="https://images.unsplash.com/photo-1595842898687-0b5c1064dbbf?w=800&q=80" alt="Indian Agriculture" loading="lazy" class="w-full h-auto object-cover aspect-[4/3]">
-                        </div>
-                        <!-- Badge -->
-                        <div class="absolute -bottom-6 -right-6 md:bottom-10 md:-right-10 bg-primary-600 text-white p-6 rounded-2xl shadow-xl hidden sm:block border-4 border-white">
-                            <div class="text-4xl font-black mb-1">20+</div>
-                            <div class="text-sm font-semibold uppercase tracking-wider">Years Serving<br>Indian Farmers</div>
-                        </div>
-                    </div>
-
-                    <!-- Text Side -->
-                    <div class="lg:w-1/2">
-                        <h2 class="text-sm font-bold text-primary-600 tracking-wide uppercase mb-2">Our Story</h2>
-                        <h3 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-6">Empowering Indian Agriculture & Construction.</h3>
-                        <p class="text-gray-600 text-lg mb-6 leading-relaxed">
-                            Established in Maharashtra, AgriTech Hardware has grown from a local supplier to a trusted name across the region. We specialize in robust, terrain-tested hardware that works as hard as you do.
-                        </p>
-                        <p class="text-gray-600 text-lg mb-8 leading-relaxed">
-                            From heavy-duty submersible pumps for irrigation to high-tensile fasteners for structural builds, we source only the best quality materials. Our chains for livestock and industrial ropes are renowned for their durability.
-                        </p>
-                        
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                            <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
-                                <i class="fa-solid fa-handshake-angle text-2xl text-accent mb-3"></i>
-                                <h4 class="font-bold text-gray-900">Farmer First</h4>
-                                <p class="text-gray-500 text-sm mt-1">Dedicated support for agricultural requirements and bulk spares.</p>
-                            </div>
-                            <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
-                                <i class="fa-solid fa-gears text-2xl text-accent mb-3"></i>
-                                <h4 class="font-bold text-gray-900">Quality Assured</h4>
-                                <p class="text-gray-500 text-sm mt-1">All tools, nuts, bolts, and machinery pass strict quality checks.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+          <div class="value-card">
+            <div class="value-icon-box bg-amber">
+              <i class="fa-solid fa-circle-check"></i>
             </div>
-        </section>
-
-        <!-- CONTACT PAGE -->
-        <section id="contact" class="page-section py-16 bg-gray-50 min-h-[80vh]">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Get In Touch</h2>
-                    <p class="max-w-2xl text-gray-500 mx-auto">Require bulk pricing for construction materials, specific pump spare parts, or hardware? Contact us directly.</p>
-                </div>
-
-                <div class="bg-white rounded-3xl shadow-xl overflow-hidden flex flex-col lg:flex-row border border-gray-100">
-                    
-                    <!-- Contact Info -->
-                    <div class="lg:w-2/5 bg-primary-900 text-white p-10 lg:p-12 flex flex-col justify-between">
-                        <div>
-                            <h3 class="text-2xl font-bold mb-8">Contact Information</h3>
-                            
-                            <div class="space-y-8">
-                                <div class="flex items-start gap-4">
-                                    <div class="w-12 h-12 bg-primary-800 rounded-full flex items-center justify-center shrink-0 text-accent">
-                                        <i class="fa-solid fa-location-dot text-xl"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-semibold text-lg">Main Warehouse</h4>
-                                        <p class="text-primary-100 mt-1 leading-relaxed">Shankar Hardware & Agro Tech<br>Daund- Ahliynagar, Sonwadi,Sonwadi Bypass,Daund,Pune, Maharashtra 413801<br>India</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-start gap-4">
-                                    <div class="w-12 h-12 bg-primary-800 rounded-full flex items-center justify-center shrink-0 text-accent">
-                                        <i class="fa-solid fa-phone text-xl"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-semibold text-lg">Phone</h4>
-                                        <p class="text-primary-100 mt-1"><a href="tel:+917052789696" class="hover:text-white underline-offset-2 hover:underline">+91 7052789696</a><br><span class="text-sm opacity-80">Mon-Sat, 9:00 AM - 7:00 PM IST</span></p>
-                                    </div>
-                                </div>
-                                <div class="flex items-start gap-4">
-                                    <div class="w-12 h-12 bg-primary-800 rounded-full flex items-center justify-center shrink-0 text-accent">
-                                        <i class="fa-solid fa-envelope text-xl"></i>
-                                    </div>
-                                    <div>
-                                      <h4 class="font-semibold text-lg">Email</h4>
-<p class="text-primary-100 mt-1 break-all"><a href="mailto:maheshpawar@shankarhardware.indevs.in" class="hover:text-white underline-offset-2 hover:underline">maheshpawar@shankarhardware.indevs.in</a></p>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Contact Form -->
-                    <div class="lg:w-3/5 p-10 lg:p-12">
-                        <h3 class="text-2xl font-bold text-gray-900 mb-6">Send an Enquiry</h3>
-                        
-                        <!-- Success Message -->
-                        <div id="form-success" class="hidden mb-6 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg relative" role="alert">
-                            <strong class="font-bold"><i class="fa-solid fa-check-circle mr-2"></i>Thank you!</strong>
-                            <span class="block sm:inline">Your email app should open with the enquiry details.</span>
-                        </div>
-
-                        <form id="contact-form" class="space-y-5">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-                                    <input id="customer-name" name="name" id="full-name" name="fullName" type="text" autocomplete="name" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors outline-none bg-gray-50 focus:bg-white" placeholder="Ramesh Patel">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number (10 digits)</label>
-                                    <div class="flex">
-                                        <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-100 text-gray-500 text-sm">
-                                          +91
-                                        </span>
-                                        <input id="customer-phone" name="phone" inputmode="numeric" maxlength="10" id="phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" pattern="[0-9]{10}" maxlength="10" required class="flex-1 min-w-0 block w-full px-4 py-3 rounded-none rounded-r-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors outline-none bg-gray-50 focus:bg-white" placeholder="9876543210">
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Enquiry Type</label>
-                                <select id="enquiry-type" name="enquiryType" id="enquiry-type" name="enquiryType" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors outline-none bg-gray-50 focus:bg-white">
-                                    <option>Water Pumps & Spares</option>
-                                    <option>Construction Tools</option>
-                                    <option>Nuts, Bolts & Fasteners</option>
-                                    <option>Ropes & Animal Chains</option>
-                                    <option>Bulk/Wholesale Order</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Details</label>
-                                <textarea id="enquiry-details" name="details" id="details" name="details" rows="4" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors outline-none resize-none bg-gray-50 focus:bg-white" placeholder="Please mention quantities or specific parts needed..."></textarea>
-                            </div>
-                            <button type="submit" class="w-full bg-primary-600 hover:bg-primary-700 text-white font-bold py-3.5 px-8 rounded-lg transition-colors shadow-md flex justify-center items-center gap-2">
-                                Submit Enquiry <i class="fa-solid fa-paper-plane"></i>
-                            </button>
-                        </form>
-                    </div>
-                </div>
+            <div class="value-text">
+              <h4>Tested & Verified Spares</h4>
+              <p>Heavy-duty ISI certified items built for rigorous agricultural and construction use.</p>
             </div>
-        </section>
-    </main>
+          </div>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-white pt-16 pb-8 border-t-4 border-primary-600 mt-auto">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
-                <!-- Brand -->
+          <div class="value-card">
+            <div class="value-icon-box bg-orange">
+              <i class="fa-solid fa-truck-fast"></i>
+            </div>
+            <div class="value-text">
+              <h4>Dispatch Across Sonwadi & Beyond</h4>
+              <p>Prompt delivery across Sonwadi, Daund, Pune, and Maharashtra.</p>
+            </div>
+          </div>
+
+          <div class="value-card">
+            <div class="value-icon-box bg-dark">
+              <i class="fa-brands fa-whatsapp"></i>
+            </div>
+            <div class="value-text">
+              <h4>WhatsApp Digital Checkout</h4>
+              <p>No tedious accounts or complicated forms. Add to cart & order directly to 7058729696.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Popular Category Quick Pills -->
+    <section class="category-showcase-section">
+      <div class="container">
+        <div class="section-header-centered">
+          <span class="sub-heading-pill">PRODUCT CATEGORIES</span>
+          <h2 class="section-title">Explore Core Inventory</h2>
+          <p class="section-desc">Browse our specialized departments for farm irrigation, construction, power tools, and industrial fasteners.</p>
+        </div>
+
+        <div class="category-pills-grid" id="categoryPillContainer">
+          <!-- Filled dynamically by JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Products Catalog Section -->
+    <section class="catalog-section" id="catalog">
+      <div class="container">
+        <div class="catalog-header-wrap">
+          <div>
+            <span class="sub-heading-pill">LIVE INVENTORY & PRICING</span>
+            <h2 class="section-title">Complete Hardware Inventory</h2>
+            <p class="section-desc">All prices in Indian Rupees (₹). Click <strong>"Add to Order"</strong> or <strong>"WhatsApp Enquire"</strong> for immediate dispatch.</p>
+          </div>
+
+          <!-- Catalog Toolbar: Search & Filter Controls -->
+          <div class="catalog-toolbar">
+            <div class="filter-search-box">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="catalogSearchInput" placeholder="Filter items by name, specification, brand..." />
+            </div>
+            <div class="sort-select-box">
+              <label for="catalogSortSelect"><i class="fa-solid fa-arrow-down-short-wide"></i> Sort:</label>
+              <select id="catalogSortSelect">
+                <option value="featured">Featured / Best Sellers</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="rating">Highest Rated</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category Filter Tabs -->
+        <div class="category-filter-tabs" id="catalogFilterTabs">
+          <button class="filter-tab active" data-category="all">
+            <i class="fa-solid fa-border-all"></i> All Products (<span id="countAll">0</span>)
+          </button>
+          <button class="filter-tab" data-category="tools">
+            <i class="fa-solid fa-screwdriver-wrench"></i> Hand & Power Tools (<span id="countTools">0</span>)
+          </button>
+          <button class="filter-tab" data-category="pumps">
+            <i class="fa-solid fa-water"></i> Pumps & Irrigation (<span id="countPumps">0</span>)
+          </button>
+          <button class="filter-tab" data-category="hardware">
+            <i class="fa-solid fa-gears"></i> Screws, Nuts & Fasteners (<span id="countHardware">0</span>)
+          </button>
+          <button class="filter-tab" data-category="ropes">
+            <i class="fa-solid fa-link"></i> Ropes & Chains (<span id="countRopes">0</span>)
+          </button>
+        </div>
+
+        <!-- Active Filter Indicator & Results Count -->
+        <div class="catalog-results-status">
+          <span id="resultsCountText">Showing all items</span>
+          <button id="resetFiltersBtn" class="reset-filters-link" style="display: none;">
+            <i class="fa-solid fa-rotate-left"></i> Reset Filters
+          </button>
+        </div>
+
+        <!-- Product Cards Grid -->
+        <div class="products-grid" id="productsGrid">
+          <!-- Dynamically populated by app.js with rich images, badges, specs, and WhatsApp order buttons -->
+        </div>
+
+        <!-- No Results Fallback -->
+        <div class="no-results-box" id="noResultsBox" style="display: none;">
+          <div class="no-results-icon"><i class="fa-solid fa-magnifying-glass-arrow-right"></i></div>
+          <h3>No matching hardware items found</h3>
+          <p>Can't find the exact spare or specification you are looking for? We stock over 1,200+ offline items in our Sonwadi store & warehouse.</p>
+          <a href="https://wa.me/917058729696?text=Hello%20Shankar%20Hardware%20Sonwadi%2C%20I%20am%20looking%20for%20a%20specific%20hardware%20item%20not%20listed%20on%20the%20website." target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp">
+            <i class="fa-brands fa-whatsapp"></i> Ask Mahesh Pawar on WhatsApp (7058729696)
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Wholesale & Bulk Order Tier Section -->
+    <section class="bulk-order-section" id="bulk-order">
+      <div class="container">
+        <div class="bulk-order-card">
+          <div class="bulk-text-column">
+            <span class="sub-heading-pill pill-light">CONTRACTOR & FARMER SPECIAL</span>
+            <h2 class="bulk-title">Wholesale & Bulk Supply Rates</h2>
+            <p class="bulk-desc">
+              Are you a borewell contractor, civil builder, electrical shop, or agricultural cooperative in Sonwadi and nearby talukas? We provide tiered volume discounts, GST invoices, and dedicated dispatch scheduling.
+            </p>
+            <ul class="bulk-benefits-list">
+              <li><i class="fa-solid fa-check"></i> Tiered wholesale discounts on 50kg+ fasteners & bulk pump orders</li>
+              <li><i class="fa-solid fa-check"></i> Standard GST Tax Invoice for business deductions</li>
+              <li><i class="fa-solid fa-check"></i> Direct site delivery via tempo/transport across Sonwadi, Daund & Western Maharashtra</li>
+              <li><i class="fa-solid fa-check"></i> Priority stock reservation for ongoing construction projects</li>
+            </ul>
+          </div>
+
+          <div class="bulk-form-column">
+            <div class="bulk-calculator-box">
+              <h3><i class="fa-solid fa-calculator"></i> Quick Bulk Inquiry Generator</h3>
+              <form id="bulkInquiryForm">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="bulkCustomerName">Name / Company</label>
+                    <input type="text" id="bulkCustomerName" placeholder="Your Name or Firm" required />
+                  </div>
+                  <div class="form-group">
+                    <label for="bulkCustomerPhone">Phone Number</label>
+                    <input type="tel" id="bulkCustomerPhone" placeholder="Mobile Number" required />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="bulkCategorySelect">Primary Requirement</label>
+                  <select id="bulkCategorySelect" required>
+                    <option value="Submersible Pumps & Irrigation Spares">Submersible Pumps & Irrigation Spares</option>
+                    <option value="High-Tensile Fasteners & Nuts/Bolts (Bulk Kg)">High-Tensile Fasteners & Nuts/Bolts (Bulk Kg)</option>
+                    <option value="Power Tools & Industrial Drills/Grinders">Power Tools & Industrial Drills/Grinders</option>
+                    <option value="Plumbing Valves, GI Fittings & PVC Pipes">Plumbing Valves, GI Fittings & PVC Pipes</option>
+                    <option value="Heavy Duty Chains & Ropes">Heavy Duty Chains & Ropes</option>
+                    <option value="General Mixed Hardware Assortment">General Mixed Hardware Assortment</option>
+                  </select>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="bulkEstimatedQty">Estimated Volume / Qty</label>
+                    <input type="text" id="bulkEstimatedQty" placeholder="e.g. 100 kg bolts / 5 pumps" required />
+                  </div>
+                  <div class="form-group">
+                    <label for="bulkLocation">Delivery Site / Taluka</label>
+                    <input type="text" id="bulkLocation" placeholder="e.g. Sonwadi, Daund, Pune" required />
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-whatsapp btn-block">
+                  <i class="fa-brands fa-whatsapp"></i> Get Wholesale Quote on WhatsApp (7058729696)
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Authorized Brand Partners Section -->
+    <section class="brand-partners-section">
+      <div class="container">
+        <div class="partners-header">
+          <p class="partners-title">AUTHORIZED STOCKISTS & GENUINE BRANDS</p>
+        </div>
+        <div class="brand-badges-row">
+          <div class="brand-badge"><i class="fa-solid fa-certificate"></i> KIRLOSKAR</div>
+          <div class="brand-badge"><i class="fa-solid fa-certificate"></i> CROMPTON</div>
+          <div class="brand-badge"><i class="fa-solid fa-certificate"></i> BOSCH TOOLS</div>
+          <div class="brand-badge"><i class="fa-solid fa-certificate"></i> TAPARIA TOOLS</div>
+          <div class="brand-badge"><i class="fa-solid fa-certificate"></i> FINOLEX PIPES</div>
+          <div class="brand-badge"><i class="fa-solid fa-certificate"></i> SUPREME AGRO</div>
+          <div class="brand-badge"><i class="fa-solid fa-certificate"></i> STANLEY</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Us & Legacy Section -->
+    <section class="about-section" id="about">
+      <div class="container">
+        <div class="about-grid">
+          <div class="about-image-column">
+            <div class="about-image-frame">
+              <img src="https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=800&q=80" alt="Shankar Hardware Sonwadi Store and Agriculture" class="about-main-img" loading="lazy" />
+              <div class="about-experience-badge">
+                <span class="exp-years">20+</span>
+                <span class="exp-text">Years Supporting Farmers & Builders</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="about-text-column">
+            <span class="sub-heading-pill">ABOUT SHANKAR HARDWARE</span>
+            <h2 class="section-title">Built on Durability, Honesty & Farmer Trust</h2>
+            <p class="about-lead">
+              Established in the heart of Maharashtra's agricultural community in <strong>Sonwadi (Pune District)</strong>, <strong>Shankar Hardware & Agro Tech</strong> has grown from a local spare parts store to a comprehensive destination for heavy-duty farming equipment and civil construction supplies.
+            </p>
+            <p class="about-paragraph">
+              We understand that during peak sowing, irrigation, or harvesting seasons, machine downtime costs farmers dearly. That's why our shelves in Sonwadi are perpetually stocked with genuine impellers, submersible pumps, non-corrosive valves, and high-tensile hardware that withstand tough conditions.
+            </p>
+
+            <div class="about-pillars-grid">
+              <div class="pillar-item">
+                <div class="pillar-icon"><i class="fa-solid fa-handshake-angle"></i></div>
                 <div>
-                    <a href="#home" class="flex items-center gap-2 mb-4">
-                        <div class="w-8 h-8 bg-primary-600 rounded flex items-center justify-center text-white">
-                            <i class="fa-solid fa-tractor text-sm"></i>
-                        </div>
-                        <span class="font-bold text-xl tracking-tight text-white">Shankar<span class="text-primary-500">Hardware</span></span>
-                    </a>
-                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">Your definitive source for robust agricultural hardware, pumps, and construction tools in India.</p>
+                  <h5>Farmer-First Guidance</h5>
+                  <p>Practical consultation on motor horsepower, head-stage calculation, and pipe sizing.</p>
+                </div>
+              </div>
+              <div class="pillar-item">
+                <div class="pillar-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+                <div>
+                  <h5>Honest Weighing & Rates</h5>
+                  <p>Digital precision weighing for bulk fasteners, bolts, chains, and wholesale hardware.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="about-cta-row">
+              <a href="tel:+917058729696" class="btn btn-primary">
+                <i class="fa-solid fa-phone"></i> Speak with Mahesh Pawar
+              </a>
+              <a href="#contact" class="btn btn-outline">
+                <i class="fa-solid fa-map-location-dot"></i> Visit Sonwadi Store
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Customer Reviews / Testimonials -->
+    <section class="testimonials-section">
+      <div class="container">
+        <div class="section-header-centered">
+          <span class="sub-heading-pill">TESTIMONIALS</span>
+          <h2 class="section-title">Trusted by Farmers & Contractors</h2>
+          <p class="section-desc">Real feedback from clients across Sonwadi, Daund, and Pune district.</p>
+        </div>
+
+        <div class="testimonials-grid">
+          <div class="testimonial-card">
+            <div class="star-rating">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            </div>
+            <p class="testimonial-text">
+              "We bought a 2HP Submersible Pump and complete PVC valves for our farm in Sonwadi. Shankar Hardware gave us genuine wholesale rates and tested the motor right in front of us. Ordering spares via WhatsApp is super convenient."
+            </p>
+            <div class="testimonial-author">
+              <div class="author-avatar"><i class="fa-solid fa-user"></i></div>
+              <div>
+                <h5 class="author-name">Dattatray Jagtap</h5>
+                <span class="author-location">Sugarcane Farmer, Sonwadi</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="star-rating">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            </div>
+            <p class="testimonial-text">
+              "As a civil fabrication contractor, I require constant supply of grade 8.8 bolts, impact drill bits, and welding essentials. Shankar Hardware always maintains high-grade stock and WhatsApp dispatch to our work site is immediate."
+            </p>
+            <div class="testimonial-author">
+              <div class="author-avatar"><i class="fa-solid fa-user"></i></div>
+              <div>
+                <h5 class="author-name">Sachin Shinde</h5>
+                <span class="author-location">Fabrication & Construction, Daund</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="star-rating">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            </div>
+            <p class="testimonial-text">
+              "Fastest response! I sent a photo of a broken pump impeller on WhatsApp to 7058729696. Mahesh ji identified the exact brass replacement within minutes and kept it packed for pickup at Sonwadi."
+            </p>
+            <div class="testimonial-author">
+              <div class="author-avatar"><i class="fa-solid fa-user"></i></div>
+              <div>
+                <h5 class="author-name">Kiran Salunkhe</h5>
+                <span class="author-location">Borewell Operator, Sonwadi Area</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact & Store Location Section -->
+    <section class="contact-section" id="contact">
+      <div class="container">
+        <div class="section-header-centered">
+          <span class="sub-heading-pill">GET IN TOUCH</span>
+          <h2 class="section-title">Visit Our Store or Order Remotely</h2>
+          <p class="section-desc">Conveniently located on Main Road, Sonwadi with extensive parking and loading facilities.</p>
+        </div>
+
+        <div class="contact-grid">
+          <!-- Contact Information & Store Hours Cards -->
+          <div class="contact-info-column">
+            <div class="info-card">
+              <div class="info-icon"><i class="fa-solid fa-location-dot"></i></div>
+              <div>
+                <h4>Retail Store & Warehouse</h4>
+                <p>Gat No. 42, Main Road, Near Gram Panchayat, Sonwadi, Pune District, Maharashtra 412204</p>
+                <a href="https://maps.google.com/?q=Sonwadi+Pune+Maharashtra" target="_blank" rel="noopener noreferrer" class="link-with-arrow">
+                  Get Google Maps Directions <i class="fa-solid fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+
+            <div class="info-card highlight-card">
+              <div class="info-icon whatsapp-bg"><i class="fa-brands fa-whatsapp"></i></div>
+              <div>
+                <h4>Direct WhatsApp Orders</h4>
+                <p class="phone-highlight">+91 7058729696</p>
+                <p class="note-text">Instant quotes, product photos, spare identification & dispatch status.</p>
+                <a href="https://wa.me/917058729696?text=Hello%20Shankar%20Hardware%20Sonwadi%2C%20I%20want%20to%20place%20an%20order." target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-sm">
+                  <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp Now
+                </a>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-icon"><i class="fa-solid fa-phone"></i></div>
+              <div>
+                <h4>Direct Calling Numbers</h4>
+                <p><strong>Primary:</strong> <a href="tel:+917058729696">+91 7058729696</a> (Mahesh Pawar)</p>
+                <p><strong>Email:</strong> <a href="mailto:maheshpawar@shankarhardware.indevs.in">maheshpawar@shankarhardware.indevs.in</a></p>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-icon"><i class="fa-solid fa-clock"></i></div>
+              <div>
+                <h4>Store Operating Hours</h4>
+                <ul class="hours-list">
+                  <li><span>Monday – Saturday:</span> <strong>9:00 AM – 7:00 PM</strong></li>
+                  <li><span>Sunday:</span> <strong>9:00 AM – 9:00 PM</strong></li>
+                  <li><span>WhatsApp Inquiries:</span> <strong>7 Days a Week (8 AM – 10 PM)</strong></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Direct Inquiry Form (Opens WhatsApp Seamlessly) -->
+          <div class="contact-form-column">
+            <div class="contact-form-box">
+              <div class="form-box-header">
+                <h3><i class="fa-solid fa-paper-plane"></i> Send Direct Inquiry</h3>
+                <p>Fill this form and we will immediately open WhatsApp with your request formatted neatly.</p>
+              </div>
+
+              <form id="mainContactForm">
+                <div class="form-group">
+                  <label for="contactFullName">Your Full Name *</label>
+                  <input type="text" id="contactFullName" placeholder="e.g. Ramesh Deshmukh" required />
                 </div>
 
-                <!-- Links -->
-               <div>
-    <h4 class="font-bold text-lg mb-4 text-white">Navigation</h4>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="contactPhoneNumber">Phone / WhatsApp Number *</label>
+                    <input type="tel" id="contactPhoneNumber" placeholder="e.g. 9822000000" required />
+                  </div>
+                  <div class="form-group">
+                    <label for="contactLocation">City / Village / Taluka</label>
+                    <input type="text" id="contactLocation" placeholder="e.g. Sonwadi, Daund, Pune" />
+                  </div>
+                </div>
 
-    <ul class="space-y-2 text-sm text-gray-400">
-        <li>
-            <a href="#home" class="hover:text-primary-400 transition-colors">
-                Home
-            </a>
-        </li>
+                <div class="form-group">
+                  <label for="contactSubject">Inquiry Category</label>
+                  <select id="contactSubject">
+                    <option value="General Product Inquiry">General Product Inquiry</option>
+                    <option value="Farming Pump / Motor Spare Requirement">Farming Pump / Motor Spare Requirement</option>
+                    <option value="Tools / Construction Hardware Price List">Tools / Construction Hardware Price List</option>
+                    <option value="Wholesale Bulk Quantity Order">Wholesale Bulk Quantity Order</option>
+                    <option value="Urgent Machinery Repair / Replacement Part">Urgent Machinery Repair / Replacement Part</option>
+                  </select>
+                </div>
 
-        <li>
-            <a href="#products" class="hover:text-primary-400 transition-colors">
-                Product Catalog
-            </a>
-        </li>
+                <div class="form-group">
+                  <label for="contactMessage">Items or Details Needed *</label>
+                  <textarea id="contactMessage" rows="4" placeholder="Mention item name, sizes, brand preference, quantity..." required></textarea>
+                </div>
 
-        <li>
-            <a href="#about" class="hover:text-primary-400 transition-colors">
-                About Us
-            </a>
-        </li>
+                <button type="submit" class="btn btn-whatsapp btn-block btn-large">
+                  <i class="fa-brands fa-whatsapp"></i> Submit & Chat on WhatsApp (7058729696)
+                </button>
+                <p class="form-footnote">
+                  <i class="fa-solid fa-lock"></i> Your details are private and used solely to assist with your hardware order.
+                </p>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 
-        <li>
-            <a href="#contact" class="hover:text-primary-400 transition-colors">
-                Contact
-            </a>
-        </li>
+  <!-- Modern Multi-Item WhatsApp Order Cart Drawer -->
+  <div class="cart-drawer-overlay" id="cartOverlay"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping Cart Drawer">
+    <div class="cart-drawer-header">
+      <div class="cart-header-title">
+        <i class="fa-solid fa-basket-shopping"></i>
+        <h3>Your Order List (<span id="drawerItemCount">0</span>)</h3>
+      </div>
+      <button class="cart-close-btn" id="closeCartBtn" aria-label="Close Order List">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
 
-       <li>
-    <a href="mailto:maheshpawar@shankarhardware.indevs.in?subject=Product%20Enquiry"
-       class="hover:text-primary-400 transition-colors break-all">
-        Email: maheshpawar@shankarhardware.indevs.in
+    <!-- Delivery / Status Banner inside Cart -->
+    <div class="cart-delivery-tip">
+      <i class="fa-solid fa-truck-ramp-box"></i> Direct Sonwadi store pickup or transport dispatch across Maharashtra.
+    </div>
+
+    <!-- Cart Items Container -->
+    <div class="cart-items-list" id="cartItemsContainer">
+      <!-- Items dynamically populated by app.js -->
+    </div>
+
+    <!-- Cart Footer & WhatsApp Checkout -->
+    <div class="cart-drawer-footer" id="cartDrawerFooter">
+      <div class="cart-subtotal-row">
+        <span>Estimated Subtotal:</span>
+        <span class="subtotal-amount" id="cartDrawerTotal">₹0</span>
+      </div>
+      <p class="tax-note">* Final freight/delivery fee will be confirmed on WhatsApp based on your destination.</p>
+
+      <!-- Customer Checkout Quick Inputs -->
+      <div class="cart-customer-fields">
+        <input type="text" id="cartCustomerName" placeholder="Your Name / Farm Name *" class="cart-input" />
+        <input type="text" id="cartCustomerLocation" placeholder="Delivery Town/Village (e.g. Sonwadi) *" class="cart-input" />
+        <textarea id="cartCustomerNotes" placeholder="Special requirements or notes (optional)" class="cart-input" rows="2"></textarea>
+      </div>
+
+      <button id="sendCartToWhatsAppBtn" class="btn btn-whatsapp btn-block btn-large">
+        <i class="fa-brands fa-whatsapp"></i> Send Order to WhatsApp (7058729696)
+      </button>
+      <button id="clearCartBtn" class="btn-clear-cart">
+        <i class="fa-solid fa-trash-can"></i> Clear All Items
+      </button>
+    </div>
+  </aside>
+
+  <!-- Product Quick View Modal -->
+  <div class="modal-backdrop" id="productModalBackdrop"></div>
+  <div class="product-modal" id="productModal" role="dialog" aria-modal="true">
+    <button class="modal-close-btn" id="closeModalBtn" aria-label="Close modal"><i class="fa-solid fa-xmark"></i></button>
+    <div class="modal-content-grid" id="modalContentContainer">
+      <!-- Injected dynamically by app.js -->
+    </div>
+  </div>
+
+  <!-- Floating Sticky WhatsApp Speed Button -->
+  <div class="floating-whatsapp-wrap">
+    <a href="https://wa.me/917058729696?text=Hello%20Shankar%20Hardware%20Sonwadi%2C%20I%20have%20an%20inquiry%20regarding%20products." target="_blank" rel="noopener noreferrer" class="floating-whatsapp-btn" aria-label="Order on WhatsApp">
+      <i class="fa-brands fa-whatsapp"></i>
+      <span class="floating-tooltip">Order on WhatsApp: <strong>7058729696</strong></span>
     </a>
-</li>
+  </div>
 
-    </ul>
-</div>
+  <!-- Toast Notification System -->
+  <div class="toast-container" id="toastContainer"></div>
 
-
-                <!-- Categories -->
-                <div>
-                    <h4 class="font-bold text-lg mb-4 text-white">Our Products</h4>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="#products" class="hover:text-primary-400 cursor-pointer block" onclick="window.activateCategory('tools')">Hammers & Drills</a></li>
-                        <li><a href="#products" class="hover:text-primary-400 cursor-pointer block" onclick="window.activateCategory('pumps')">Farming Pumps & Spares</a></li>
-                        <li><a href="#products" class="hover:text-primary-400 cursor-pointer block" onclick="window.activateCategory('hardware')">Screws, Nuts & Bolts</a></li>
-                        <li><a href="#products" class="hover:text-primary-400 cursor-pointer block" onclick="window.activateCategory('agri')">Ropes & Animal Chains</a></li>
-                    </ul>
-                </div>
-
-                <!-- Business Hours -->
-                <div>
-                    <h4 class="font-bold text-lg mb-4 text-white">Business Hours</h4>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li class="flex justify-between"><span>Monday - Saturday:</span> <span>9 AM - 7 PM</span></li>
-                        <li class="flex justify-between text-primary-400"><span>Sunday:</span> <span>9 AM - 9 PM</span></li>
-
-                    </ul>
-                </div>
+  <!-- Comprehensive Modern Footer -->
+  <footer class="main-footer">
+    <div class="container footer-container">
+      <div class="footer-top-grid">
+        <!-- Brand Bio Column -->
+        <div class="footer-col brand-col">
+          <div class="footer-logo">
+            <div class="logo-icon-wrap small"><i class="fa-solid fa-tractor"></i></div>
+            <div class="logo-text-wrap">
+              <span class="brand-title light">SHANKAR <span class="highlight-text-gold">HARDWARE</span></span>
+              <span class="brand-subtitle light">& AGRO TECH • SONWADI</span>
             </div>
-            
-            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
-                <p>© <span id="current-year"></span> Shankar Hardware India. All rights reserved.</p>
-                <p class="mt-2 md:mt-0">Built for durability.</p>
-            </div>
+          </div>
+          <p class="footer-bio">
+            For over two decades, Shankar Hardware & Agro Tech has provided Sonwadi, Daund, and surrounding agricultural regions with durable tools, agricultural pumps, and high-tensile hardware.
+          </p>
+          <div class="footer-phone-badge">
+            <i class="fa-brands fa-whatsapp"></i> WhatsApp Order Line: <a href="https://wa.me/917058729696">+91 7058729696</a>
+          </div>
         </div>
-    </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        <!-- Quick Links Column -->
+        <div class="footer-col">
+          <h4 class="footer-heading">Quick Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="#home"><i class="fa-solid fa-angle-right"></i> Home</a></li>
+            <li><a href="#catalog"><i class="fa-solid fa-angle-right"></i> Products Catalog</a></li>
+            <li><a href="#bulk-order"><i class="fa-solid fa-angle-right"></i> Wholesale & Bulk Orders</a></li>
+            <li><a href="#about"><i class="fa-solid fa-angle-right"></i> About Store Heritage</a></li>
+            <li><a href="#contact"><i class="fa-solid fa-angle-right"></i> Store Location & Map</a></li>
+          </ul>
+        </div>
 
-            window.activateCategory = function(categoryId) {
-                // Navigate to products section
-                if (window.location.hash !== '#products') {
-                    window.location.hash = 'products';
-                }
-                
-                // Allow minimal delay for DOM/route update, then click the correct filter
-                setTimeout(() => {
-                    const targetBtn = document.querySelector(`.filter-btn[data-filter="${categoryId}"]`);
-                    if (targetBtn) {
-                        targetBtn.click();
-                        
-                        // Scroll smoothly to the filter container
-                        const filterContainer = document.getElementById('filter-container');
-                        if (filterContainer) {
-                            // offset scroll to account for fixed navbar
-                            const y = filterContainer.getBoundingClientRect().top + window.scrollY - 100;
-                            window.scrollTo({top: y, behavior: 'smooth'});
-                        }
-                    }
-                }, 100);
-            };
+        <!-- Hardware Categories Column -->
+        <div class="footer-col">
+          <h4 class="footer-heading">Core Categories</h4>
+          <ul class="footer-links">
+            <li><a href="#catalog" onclick="filterByCategory('pumps')"><i class="fa-solid fa-angle-right"></i> Submersible Pumps & Spares</a></li>
+            <li><a href="#catalog" onclick="filterByCategory('tools')"><i class="fa-solid fa-angle-right"></i> Power Drills & Impact Tools</a></li>
+            <li><a href="#catalog" onclick="filterByCategory('tools')"><i class="fa-solid fa-angle-right"></i> Hand Wrenches & Hammers</a></li>
+            <li><a href="#catalog" onclick="filterByCategory('hardware')"><i class="fa-solid fa-angle-right"></i> High-Tensile Nuts & Bolts</a></li>
+            <li><a href="#catalog" onclick="filterByCategory('ropes')"><i class="fa-solid fa-angle-right"></i> Nylon Braided Ropes & Chains</a></li>
+          </ul>
+        </div>
 
-            // 1. Single Page Application (SPA) Routing Logic
-            const sections = document.querySelectorAll('.page-section');
-            const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
+        <!-- Operating Hours & Address Column -->
+        <div class="footer-col">
+          <h4 class="footer-heading">Store Hours & Sonwadi Location</h4>
+          <p class="footer-address">
+            <i class="fa-solid fa-location-dot"></i> Gat No. 42, Main Road, Near Gram Panchayat, Sonwadi, Pune District, Maharashtra 412204
+          </p>
+          <ul class="footer-hours">
+            <li><span>Mon – Sat:</span> 9:00 AM – 7:00 PM</li>
+            <li><span>Sunday:</span> 9:00 AM – 9:00 PM</li>
+            <li><span>WhatsApp:</span> <strong>24/7 Receiving (7058729696)</strong></li>
+          </ul>
+        </div>
+      </div>
 
-            function handleRouting() {
-                // Get hash from URL, default to 'home'
-                let hash = window.location.hash.substring(1) || 'home';
-                
-                // Validate if section exists, if not default to home
-                const targetSection = document.getElementById(hash);
-                if (!targetSection) {
-                    hash = 'home';
-                }
+      <!-- Footer Bottom Bar -->
+      <div class="footer-bottom-bar">
+        <p class="copyright-text">
+          &copy; <span id="currentYear"></span> Shankar Hardware & Agro Tech • Sonwadi. All rights reserved.
+        </p>
+        <div class="footer-security-badges">
+          <span><i class="fa-solid fa-shield-halved"></i> 100% Genuine ISI Spares</span>
+          <span><i class="fa-brands fa-whatsapp"></i> Direct WhatsApp Checkout</span>
+          <span><i class="fa-solid fa-truck"></i> Maharashtra Dispatch</span>
+        </div>
+      </div>
+    </div>
+  </footer>
 
-                // Hide all sections
-                sections.forEach(section => {
-                    section.classList.remove('active');
-                });
-
-                // Show target section
-                document.getElementById(hash).classList.add('active');
-
-                // Update active state in Desktop Navigation
-                document.querySelectorAll('.nav-link').forEach(link => {
-                    link.classList.remove('active-link');
-                    if (link.getAttribute('href') === `#${hash}`) {
-                        link.classList.add('active-link');
-                    }
-                });
-
-                // Scroll to top on page change
-                window.scrollTo(0, 0);
-            }
-
-            // Listen for hash changes
-            window.addEventListener('hashchange', handleRouting);
-            // Run on initial load
-            handleRouting();
-
-
-            // 2. Mobile Menu Toggle
-            const mobileBtn = document.getElementById('mobile-menu-btn');
-            const mobileMenu = document.getElementById('mobile-menu');
-
-            mobileBtn.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-
-            // Close mobile menu when clicking a link
-            navLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    if (!mobileMenu.classList.contains('hidden')) {
-                        mobileMenu.classList.add('hidden');
-                    }
-                });
-            });
-
-
-            // 3. Product Catalog Data (Indian Pricing & Unsplash Images)
-            const products = [
-                // Hand & Power Tools
-                {
-                    id: 1, name: "Drop Forged Claw Hammer", category: "tools", price: 350,
-                    image: "https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?w=500&q=80", rating: 4.8
-                },
-                {
-                    id: 2, name: "750W Heavy Duty Impact Drill", category: "tools", price: 2850,
-                    image: "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=500&q=80", rating: 4.9
-                },
-                {
-                    id: 3, name: "Masonry Trowel (Construction)", category: "tools", price: 220,
-                    image: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=500&q=80", rating: 4.5
-                },
-                {
-                    id: 4, name: "Adjustable Pipe Wrench 14\"", category: "tools", price: 650,
-                    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&q=80", rating: 4.7
-                },
-                
-                // Pumps & Spares
-                {
-                    id: 5, name: "2HP Submersible Farming Pump", category: "pumps", price: 14500,
-                    image: "https://images.unsplash.com/photo-1628186121415-32130097f53a?w=500&q=80", rating: 4.8
-                },
-                {
-                    id: 6, name: "Brass Pump Impeller Spare", category: "pumps", price: 850,
-                    image: "https://images.unsplash.com/photo-1616422285623-14669f69ce8d?w=500&q=80", rating: 4.4
-                },
-                {
-                    id: 7, name: "Irrigation PVC Ball Valve", category: "pumps", price: 320,
-                    image: "https://images.unsplash.com/photo-1634586411589-983226a0b162?w=500&q=80", rating: 4.6
-                },
-
-                // Hardware (Screws, Nuts, Bolts)
-                {
-                    id: 8, name: "Galvanized Wood Screws (Box)", category: "hardware", price: 450,
-                    image: "https://images.unsplash.com/photo-1585074245728-eedb15bd2c40?w=500&q=80", rating: 4.7
-                },
-                {
-                    id: 9, name: "High-Tensile Nut & Bolt (Per Kg)", category: "hardware", price: 180,
-                    image: "https://images.unsplash.com/photo-1530968153435-021b1f618d3c?w=500&q=80", rating: 4.9
-                },
-                {
-                    id: 10, name: "Stainless Steel Washers (Pack)", category: "hardware", price: 120,
-                    image: "https://images.unsplash.com/photo-1618641775496-fb2e2691b920?w=500&q=80", rating: 4.5
-                },
-
-                // Ropes & Chains
-                {
-                    id: 11, name: "Nylon Braided Rope (50m)", category: "agri", price: 650,
-                    image: "https://images.unsplash.com/photo-1582236940864-7e828fc0e6f6?w=500&q=80", rating: 4.6
-                },
-                {
-                    id: 12, name: "Heavy Duty Iron Animal Chain", category: "agri", price: 950,
-                    image: "https://images.unsplash.com/photo-1549429402-98edae4a7b5e?w=500&q=80", rating: 4.8
-                }
-            ];
-
-            const productsGrid = document.getElementById('products-grid');
-
-            // Formatter for Indian Rupee
-            const inrFormat = new Intl.NumberFormat('en-IN', {
-                style: 'currency',
-                currency: 'INR',
-                maximumFractionDigits: 0
-            });
-
-            // Function to render product cards
-            function renderProducts(items) {
-                productsGrid.innerHTML = '';
-                
-                if(items.length === 0) {
-                    productsGrid.innerHTML = '<p class="col-span-full text-center text-gray-500 py-10">No products found in this category.</p>';
-                    return;
-                }
-
-                items.forEach(product => {
-                    // Generate star rating HTML
-                    let starsHtml = '';
-                    for(let i=1; i<=5; i++) {
-                        if(i <= Math.floor(product.rating)) {
-                            starsHtml += '<i class="fa-solid fa-star text-accent text-xs"></i>';
-                        } else if (i === Math.ceil(product.rating) && !Number.isInteger(product.rating)) {
-                            starsHtml += '<i class="fa-solid fa-star-half-stroke text-accent text-xs"></i>';
-                        } else {
-                            starsHtml += '<i class="fa-regular fa-star text-gray-300 text-xs"></i>';
-                        }
-                    }
-
-                    // Map category code to readable badge
-                    let badgeText = '';
-                    switch(product.category) {
-                        case 'tools': badgeText = 'Tools'; break;
-                        case 'pumps': badgeText = 'Pumps & Spares'; break;
-                        case 'hardware': badgeText = 'Hardware'; break;
-                        case 'agri': badgeText = 'Ropes/Chains'; break;
-                    }
-
-                    const cardHTML = `
-                        <div class="product-card bg-white rounded-xl overflow-hidden border border-gray-100 flex flex-col group">
-                            <div class="relative overflow-hidden">
-                                <img src="${product.image}" alt="${product.name}" loading="lazy" decoding="async" class="w-full h-48 sm:h-56 object-cover transform group-hover:scale-105 transition-transform duration-500">
-                                <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-300"></div>
-                                <span class="absolute top-3 left-3 bg-white/95 backdrop-blur text-primary-700 text-xs font-bold px-3 py-1 rounded shadow-sm uppercase tracking-wider">
-                                    ${badgeText}
-                                </span>
-                            </div>
-                            <div class="p-5 flex flex-col flex-grow">
-                                <h4 class="font-bold text-lg text-gray-900 leading-tight mb-2">${product.name}</h4>
-                                <div class="flex items-center mb-4">
-                                    ${starsHtml} <span class="text-xs text-gray-500 ml-2 font-medium">${product.rating}</span>
-                                </div>
-                                <div class="mt-auto flex items-center justify-between border-t border-gray-50 pt-4">
-                                    <span class="font-black text-2xl text-gray-900 tracking-tight">${inrFormat.format(product.price)}</span>
-                                    <button type="button" class="add-enquiry-btn bg-primary-50 text-primary-700 hover:bg-primary-600 hover:text-white w-10 h-10 rounded-lg flex items-center justify-center transition-colors shadow-sm" title="Add to Enquiry" data-product-id="${product.id}">
-                                        <i class="fa-solid fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    productsGrid.insertAdjacentHTML('beforeend', cardHTML);
-                });
-            }
-
-            // Initial render
-            renderProducts(products);
-
-
-            // 4. Product Filtering Logic
-            const filterBtns = document.querySelectorAll('.filter-btn');
-
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    // UI state change
-                    filterBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-
-                    // Filter logic
-                    const filterValue = btn.getAttribute('data-filter');
-                    
-                    if (filterValue === 'all') {
-                        renderProducts(products);
-                    } else {
-                        const filtered = products.filter(p => p.category === filterValue);
-                        renderProducts(filtered);
-                    }
-                });
-            });
-
-
-            // 5. Contact Form -> XML
-            const contactForm = document.getElementById('contact-form');
-            const formSuccess = document.getElementById('form-success');
-
-            window.selectedEnquiryProduct = '';
-
-            function escapeXml(value) {
-                return String(value ?? '')
-                    .replace(/&/g, '&amp;')
-                    .replace(/</g, '&lt;')
-                    .replace(/>/g, '&gt;')
-                    .replace(/"/g, '&quot;')
-                    .replace(/'/g, '&apos;');
-            }
-
-            function createEnquiryXml(enquiry) {
-                return `<?xml version="1.0" encoding="UTF-8"?>
-<enquiries>
-    <enquiry>
-        <id>${escapeXml(enquiry.id)}</id>
-        <date>${escapeXml(enquiry.date)}</date>
-        <name>${escapeXml(enquiry.name)}</name>
-        <phone>${escapeXml(enquiry.phone)}</phone>
-        <type>${escapeXml(enquiry.type)}</type>
-        <details>${escapeXml(enquiry.details)}</details>
-        <product>${escapeXml(enquiry.product)}</product>
-        <status>New</status>
-    </enquiry>
-</enquiries>`;
-            }
-
-            function downloadXml(xmlText, filename) {
-                const blob = new Blob([xmlText], {
-                    type: 'application/xml;charset=utf-8'
-                });
-
-                const url = URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = filename;
-                document.body.appendChild(link);
-                link.click();
-                link.remove();
-
-                setTimeout(() => URL.revokeObjectURL(url), 1000);
-            }
-
-            contactForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-
-                const name = document.getElementById('customer-name').value.trim();
-                const phone = document.getElementById('customer-phone').value.trim();
-                const type = document.getElementById('enquiry-type').value;
-                const details = document.getElementById('enquiry-details').value.trim();
-
-                if (!/^[0-9]{10}$/.test(phone)) {
-                    alert('Please enter a valid 10-digit phone number.');
-                    document.getElementById('customer-phone').focus();
-                    return;
-                }
-
-                const enquiry = {
-                    id: 'ENQ-' + Date.now(),
-                    date: new Date().toISOString(),
-                    name,
-                    phone,
-                    type,
-                    details,
-                    product: window.selectedEnquiryProduct || ''
-                };
-
-                const xml = createEnquiryXml(enquiry);
-                downloadXml(xml, 'enquiries.xml');
-
-                formSuccess.querySelector('span').textContent =
-                    'Enquiry saved to enquiries.xml. The XML file has been downloaded.';
-                formSuccess.classList.remove('hidden');
-
-                contactForm.reset();
-                window.selectedEnquiryProduct = '';
-
-                setTimeout(() => {
-                    formSuccess.classList.add('hidden');
-                }, 6000);
-            });
-
-            // Product + button -> Contact form
-            productsGrid.addEventListener('click', (event) => {
-                const button = event.target.closest('.add-enquiry-btn');
-                if (!button) return;
-
-                const product = products.find(
-                    p => p.id === Number(button.dataset.productId)
-                );
-
-                if (!product) return;
-
-                window.selectedEnquiryProduct =
-                    `${product.name} - ${inrFormat.format(product.price)}`;
-
-                window.location.hash = 'contact';
-
-                setTimeout(() => {
-                    const detailsField = document.getElementById('enquiry-details');
-                    if (detailsField) {
-                        detailsField.value =
-                            `Product: ${product.name}\nListed Price: ${inrFormat.format(product.price)}\n\n`;
-                        detailsField.focus();
-                    }
-                }, 150);
-            });
-
-            // 6. Navbar styling on scroll (add slight shadow)
-            const navbar = document.querySelector('nav');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 10) {
-                    navbar.classList.add('shadow-md');
-                } else {
-                    navbar.classList.remove('shadow-md');
-                }
-            });
-
-            // Keep the copyright year current.
-            document.getElementById('current-year').textContent = new Date().getFullYear();
-
-            const currentYear = document.getElementById('current-year');
-            if (currentYear) currentYear.textContent = new Date().getFullYear();
-
-        });
-    </script>
+  <script src="app.js"></script>
 </body>
 </html>
