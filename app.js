@@ -972,3 +972,52 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+/* ==========================================
+   DEVELOPMENT ANNOUNCEMENT POPUP
+========================================== */
+
+(function () {
+
+    function initializeDevelopmentPopup() {
+
+        const popup = document.getElementById("developmentPopup");
+        const closeBtn = document.getElementById("closeDevelopmentPopup");
+
+        if (!popup || !closeBtn) {
+            console.error("Development popup elements not found.");
+            return;
+        }
+
+        // Show popup by default
+        popup.style.display = "flex";
+
+        // Close button
+        closeBtn.onclick = function (event) {
+
+            event.preventDefault();
+            event.stopPropagation();
+
+            popup.style.display = "none";
+
+            sessionStorage.setItem(
+                "developmentNoticeShown",
+                "true"
+            );
+
+        };
+
+        // Display only once per browser session
+        if (sessionStorage.getItem("developmentNoticeShown") === "true") {
+            popup.style.display = "none";
+        }
+
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initializeDevelopmentPopup);
+    } else {
+        initializeDevelopmentPopup();
+    }
+
+})();
