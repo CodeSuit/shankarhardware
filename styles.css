@@ -2484,112 +2484,135 @@ button, input, select, textarea {
     font-size: 12px;
 }
 
-/* Mobile Responsive */
 
-@media (max-width: 576px) {
-    .development-popup {
-        padding: 20px 16px;
-        border-radius: 15px;
-        max-height: 94vh;
-    }
-
-    .development-popup h2 {
-        font-size: 21px;
-    }
-
-    .development-language {
-        font-size: 13px;
-    }
-
-    .development-popup-icon {
-        width: 55px;
-        height: 55px;
-        font-size: 23px;
-    }
-}
 
 /* ==========================================
-   FULL-WIDTH MOBILE DEVELOPMENT POPUP
+   MOBILE ANNOUNCEMENT - FULL SCREEN
+   VERTICAL + HORIZONTAL SCROLLING
 ========================================== */
 
-@media (max-width: 576px) {
+@media screen and (max-width: 576px) {
+
+    html, body {
+        overflow-x: hidden;
+    }
 
     .development-popup-overlay {
-        position: fixed;
-        inset: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
-        height: 100dvh;
-        align-items: stretch;
-        justify-content: stretch;
-        overflow: hidden;
+        position: fixed !important;
+        inset: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+
+        overflow: hidden !important;
+        z-index: 999999 !important;
+
+        background: rgba(10, 20, 35, 0.88);
     }
 
     .development-popup {
-        width: 100%;
-        max-width: 100%;
-        height: 100%;
-        max-height: 100%;
-        border-radius: 0;
-        padding: 18px 20px;
-        overflow-x: hidden;
-        overflow-y: auto;
-        box-shadow: none;
+        position: absolute !important;
+        inset: 0 !important;
+
+        width: 100% !important;
+        max-width: none !important;
+        min-width: 0 !important;
+
+        height: 100% !important;
+        max-height: none !important;
+
+        margin: 0 !important;
+        padding: 18px 15px 25px !important;
+
+        border-radius: 0 !important;
+        box-sizing: border-box !important;
+
+        /* Both scroll directions */
+        overflow-x: auto !important;
+        overflow-y: auto !important;
+
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+        touch-action: pan-x pan-y;
+
+        scrollbar-width: auto;
+        scrollbar-color: #64748b #e2e8f0;
+    }
+
+    /* Force horizontal overflow */
+    .development-popup > * {
+        min-width: 460px;
+        box-sizing: border-box;
     }
 
     .development-popup-icon {
         width: 48px;
         height: 48px;
-        font-size: 21px;
-        margin-bottom: 10px;
+        margin: 0 auto 12px;
+    }
+
+    .development-status {
+        display: table;
+        margin: 0 auto;
     }
 
     .development-popup h2 {
         font-size: 21px;
-        margin: 10px 0 15px;
+        text-align: center;
     }
 
     .development-language {
-        width: 100%;
+        width: 460px !important;
+        min-width: 460px !important;
+        max-width: none !important;
+
         font-size: 13px;
         line-height: 1.7;
         text-align: left;
-        overflow-wrap: anywhere;
-    }
-
-    .development-language h3 {
-        font-size: 16px;
-    }
-
-    .development-language p {
-        margin-bottom: 10px;
+        overflow-wrap: break-word;
     }
 
     .development-warning,
     .visit-store-message {
-        padding: 10px;
         width: 100%;
+        box-sizing: border-box;
     }
 
     .development-divider {
-        margin: 15px 0;
+        width: 460px;
     }
 
     .development-contact {
-        width: 100%;
-        padding: 12px;
-        font-size: 12px;
+        width: 460px;
     }
 
     .development-close-btn {
-        width: 100%;
-        padding: 14px;
-        margin-top: 14px;
-        font-size: 14px;
+        width: 460px;
+        margin-top: 15px;
     }
 
     .development-footer {
-        margin-bottom: 15px;
+        width: 460px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    /* Chrome / Android scrollbar styling */
+    .development-popup::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    .development-popup::-webkit-scrollbar-thumb {
+        background: #64748b;
+        border-radius: 10px;
+    }
+
+    .development-popup::-webkit-scrollbar-track {
+        background: #e2e8f0;
     }
 }

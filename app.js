@@ -973,6 +973,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+
 /* ==========================================
    DEVELOPMENT ANNOUNCEMENT POPUP
 ========================================== */
@@ -984,40 +985,61 @@ document.addEventListener('DOMContentLoaded', () => {
         const popup = document.getElementById("developmentPopup");
         const closeBtn = document.getElementById("closeDevelopmentPopup");
 
+        // Check whether popup elements exist
         if (!popup || !closeBtn) {
             console.error("Development popup elements not found.");
             return;
         }
 
-        // Show popup by default
-        popup.style.display = "flex";
+        // Check whether announcement was already closed
+        const noticeShown =
+            sessionStorage.getItem("developmentNoticeShown") === "true";
 
-        // Close button
-        closeBtn.onclick = function (event) {
+        if (noticeShown) {
+
+            popup.style.display = "none";
+            document.body.style.overflow = "";
+
+        } else {
+
+            // Display popup and lock background scrolling
+            popup.style.display = "flex";
+            document.body.style.overflow = "hidden";
+
+        }
+
+        // Close announcement popup
+        closeBtn.addEventListener("click", function (event) {
 
             event.preventDefault();
-            event.stopPropagation();
 
             popup.style.display = "none";
 
+            // Restore homepage scrolling
+            document.body.style.overflow = "";
+
+            // Remember dismissal for current session
             sessionStorage.setItem(
                 "developmentNoticeShown",
                 "true"
             );
 
-        };
-
-        // Display only once per browser session
-        if (sessionStorage.getItem("developmentNoticeShown") === "true") {
-            popup.style.display = "none";
-        }
+        });
 
     }
 
+    // Initialize after DOM is ready
     if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", initializeDevelopmentPopup);
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            initializeDevelopmentPopup
+        );
+
     } else {
+
         initializeDevelopmentPopup();
+
     }
 
 })();
