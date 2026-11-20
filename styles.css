@@ -2327,3 +2327,183 @@ button, input, select, textarea {
     grid-template-columns: 1fr;
   }
 }
+
+/* ==========================================
+   WEBSITE UNDER DEVELOPMENT POPUP
+========================================== */
+
+.development-popup-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(10, 20, 35, 0.82);
+    backdrop-filter: blur(7px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+.development-popup {
+    width: 100%;
+    max-width: 650px;
+    max-height: 92vh;
+    overflow-y: auto;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 25px 80px rgba(0,0,0,0.3);
+    animation: developmentPopupShow 0.35s ease;
+}
+
+@keyframes developmentPopupShow {
+    from {
+        opacity: 0;
+        transform: translateY(25px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.development-popup-icon {
+    width: 65px;
+    height: 65px;
+    margin: 0 auto 15px;
+    background: #fff3cd;
+    color: #d97706;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+}
+
+.development-status {
+    display: inline-block;
+    padding: 7px 14px;
+    border-radius: 30px;
+    background: #fff3cd;
+    color: #92400e;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.development-popup h2 {
+    font-size: 25px;
+    margin: 14px 0 20px;
+    color: #172033;
+}
+
+.development-language {
+    text-align: left;
+    color: #475569;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.development-language h3 {
+    color: #172033;
+    font-size: 17px;
+    margin-bottom: 8px;
+}
+
+.development-language p {
+    margin-bottom: 12px;
+}
+
+.development-warning {
+    background: #fff1f0;
+    border-left: 4px solid #dc2626;
+    padding: 12px;
+    border-radius: 7px;
+    color: #991b1b;
+    font-weight: 600;
+}
+
+.development-warning i {
+    margin-right: 5px;
+}
+
+.visit-store-message {
+    background: #ecfdf5;
+    border-left: 4px solid #059669;
+    padding: 12px;
+    border-radius: 7px;
+    color: #065f46;
+}
+
+.visit-store-message i {
+    margin-right: 5px;
+}
+
+.development-divider {
+    height: 1px;
+    background: #e2e8f0;
+    margin: 20px 0;
+}
+
+.development-contact {
+    background: #f1f5f9;
+    padding: 13px;
+    border-radius: 10px;
+    line-height: 2;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.development-close-btn {
+    width: 100%;
+    border: none;
+    padding: 14px;
+    margin-top: 18px;
+    border-radius: 10px;
+    background: #15803d;
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.development-close-btn:hover {
+    background: #166534;
+    transform: translateY(-2px);
+}
+
+.development-footer {
+    display: block;
+    margin-top: 13px;
+    color: #64748b;
+    line-height: 1.7;
+    font-size: 12px;
+}
+
+/* Mobile Responsive */
+
+@media (max-width: 576px) {
+    .development-popup {
+        padding: 20px 16px;
+        border-radius: 15px;
+        max-height: 94vh;
+    }
+
+    .development-popup h2 {
+        font-size: 21px;
+    }
+
+    .development-language {
+        font-size: 13px;
+    }
+
+    .development-popup-icon {
+        width: 55px;
+        height: 55px;
+        font-size: 23px;
+    }
+}
