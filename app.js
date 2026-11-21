@@ -7,6 +7,173 @@
 // Target Business Phone / WhatsApp Number
 const WHATSAPP_NUMBER = '917058729696';
 
+/* ==========================================
+   SHANKAR HARDWARE - UPI QR PAYMENT
+========================================== */
+
+(function () {
+
+    const UPI_ID = "7058729696@axl";
+    const MERCHANT_NAME = "Shankar Hardware";
+
+    let currentOrderId = "";
+
+    function initializeUpiPayment() {
+
+        const generateBtn =
+            document.getElementById("generatePaymentQrBtn");
+
+        const modal =
+            document.getElementById("upiPaymentModal");
+
+        const backdrop =
+            document.getElementById("upiPaymentBackdrop");
+
+        const closeBtn =
+            document.getElementById("closeUpiPayment");
+
+        const qrContainer =
+            document.getElementById("upiQrCode");
+
+        if (!generateBtn || !modal || !backdrop || !qrContainer) {
+            console.error("UPI payment elements missing.");
+            return;
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+            backdrop.style.display = "none";
+            document.body.style.overflow = "";
+        }
+
+        generateBtn.addEventListener("click", function () {
+
+            const customerName =
+                document.getElementById("cartCustomerName").value.trim();
+
+            const customerLocation =
+                document.getElementById("cartCustomerLocation").value.trim();
+
+            const totalText =
+                document.getElementById("cartDrawerTotal").textContent;
+
+            const amount = Number(
+                totalText.replace(/[₹,\s]/g, "")
+            );
+
+            if (!customerName || !customerLocation) {
+                alert("Please enter your name and delivery location.");
+                return;
+            }
+
+            if (!Number.isFinite(amount) || amount <= 0) {
+                alert("Your order amount is invalid.");
+                return;
+            }
+
+            // Generate unique order reference
+            currentOrderId =
+                "SH" + Date.now().toString();
+
+            const amountFormatted = amount.toFixed(2);
+
+            const upiLink =
+                "upi://pay?" +
+                "pa=" + encodeURIComponent(UPI_ID) +
+                "&pn=" + encodeURIComponent(MERCHANT_NAME) +
+                "&am=" + encodeURIComponent(amountFormatted) +
+                "&cu=INR" +
+                "&tn=" + encodeURIComponent(currentOrderId);
+
+            document.getElementById("upiOrderId").textContent =
+                currentOrderId;
+
+            document.getElementById("upiPaymentAmount").textContent =
+                "₹" + amountFormatted;
+
+            // Generate QR
+            qrContainer.innerHTML = "";
+
+            if (typeof QRCode === "undefined") {
+                alert("QR library could not load. Please check your internet connection.");
+                return;
+            }
+
+            new QRCode(qrContainer, {
+                text: upiLink,
+                width: 220,
+                height: 220,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+
+            // Open payment modal
+            modal.style.display = "block";
+            backdrop.style.display = "block";
+            document.body.style.overflow = "hidden";
+
+            // Configure mobile UPI app button
+            document.getElementById("openUpiApp").href = upiLink;
+
+        });
+
+        closeBtn.addEventListener("click", closeModal);
+        backdrop.addEventListener("click", closeModal);
+
+        // Submit payment reference for manual verification
+        document.getElementById("submitPaymentReference")
+            .addEventListener("click", function () {
+
+                const utr =
+                    document.getElementById("paymentUtr").value.trim();
+
+                if (!currentOrderId) {
+                    alert("Please generate your order payment QR first.");
+                    return;
+                }
+
+                if (!/^[a-zA-Z0-9]{8,30}$/.test(utr)) {
+                    alert("Please enter a valid payment reference number.");
+                    return;
+                }
+
+                const amount =
+                    document.getElementById("upiPaymentAmount").textContent;
+
+                const customer =
+                    document.getElementById("cartCustomerName").value.trim();
+
+                const message =
+                    "Payment Reference Submission - Shankar Hardware\n\n" +
+                    "Order ID: " + currentOrderId + "\n" +
+                    "Customer: " + customer + "\n" +
+                    "Amount: " + amount + "\n" +
+                    "UPI ID: " + UPI_ID + "\n" +
+                    "UTR: " + utr + "\n\n" +
+                    "Please verify my payment and confirm my order.";
+
+                const whatsappUrl =
+                    "https://wa.me/917058729696?text=" +
+                    encodeURIComponent(message);
+
+                window.open(whatsappUrl, "_blank");
+
+            });
+
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener(
+            "DOMContentLoaded",
+            initializeUpiPayment
+        );
+    } else {
+        initializeUpiPayment();
+    }
+
+})();
+
 // -------------------------------------------------------------
 // PRODUCT CATALOG DATABASE
 // Includes verified high-res images, categories, brands & specs
