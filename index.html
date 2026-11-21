@@ -17,6 +17,64 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  
+<!-- UPI Payment Modal -->
+<div class="modal-backdrop" id="upiPaymentBackdrop"></div>
+
+<div class="product-modal upi-payment-modal"
+     id="upiPaymentModal"
+     role="dialog"
+     aria-modal="true">
+
+    <button type="button" class="modal-close-btn"
+            id="closeUpiPayment">
+        <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <div class="upi-payment-content">
+
+        <h2>Complete Your Payment</h2>
+        <p>Shankar Hardware & Agro Tech</p>
+
+        <div class="upi-order-details">
+            <p>Order ID: <strong id="upiOrderId"></strong></p>
+            <p>Payment Amount:</p>
+            <h2 id="upiPaymentAmount">₹0.00</h2>
+        </div>
+
+        <div id="upiQrCode"
+             style="display:flex;justify-content:center;
+                    background:white;padding:15px;">
+        </div>
+
+        <p><strong>UPI ID:</strong> 7058729696@axl</p>
+
+        <a href="#" id="openUpiApp"
+           class="btn btn-primary btn-block">
+            <i class="fa-solid fa-mobile-screen"></i>
+            Pay Using UPI App
+        </a>
+
+        <div class="form-group">
+            <label for="paymentUtr">Payment UTR / Reference Number</label>
+            <input type="text" id="paymentUtr"
+                   placeholder="Enter 12-digit UTR after payment"
+                   maxlength="30">
+        </div>
+
+        <button type="button" id="submitPaymentReference"
+                class="btn btn-whatsapp btn-block">
+            Submit Payment Reference on WhatsApp
+        </button>
+
+        <p class="tax-note">
+            Payment will be confirmed only after verification
+            by Shankar Hardware & Agro Tech.
+        </p>
+
+    </div>
+</div>
+
 <!--Notification Temp Start-->
 
 <!-- Website Under Development Announcement -->
@@ -301,6 +359,13 @@
                 <label for="heroItemsNeeded">Hardware / Spares Needed</label>
                 <textarea id="heroItemsNeeded" rows="2" placeholder="e.g. 2HP Submersible Pump, 50m Nylon Rope, 14 inch Pipe Wrench" required></textarea>
               </div>
+              
+<button type="button" id="generatePaymentQrBtn"
+        class="btn btn-primary btn-block btn-large">
+    <i class="fa-solid fa-qrcode"></i>
+    Generate UPI Payment QR
+</button>
+
               <button type="submit" class="btn btn-whatsapp btn-block">
                 <i class="fa-brands fa-whatsapp"></i> Send to WhatsApp: 7058729696
               </button>
@@ -897,7 +962,8 @@
       </div>
     </div>
   </footer>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="app.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
