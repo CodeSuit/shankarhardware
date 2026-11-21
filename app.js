@@ -12,33 +12,20 @@ const WHATSAPP_NUMBER = '917058729696';
 ========================================== */
 
 (function () {
-
-    const UPI_ID = "7058729696@axl";
+    const UPI_ID = "Q966324428@ybl";
     const MERCHANT_NAME = "Shankar Hardware";
-
     let currentOrderId = "";
+    let currentUpiLink = "";
 
     function initializeUpiPayment() {
-
-        const generateBtn =
-            document.getElementById("generatePaymentQrBtn");
-
-        const modal =
-            document.getElementById("upiPaymentModal");
-
-        const backdrop =
-            document.getElementById("upiPaymentBackdrop");
-
-        const closeBtn =
-            document.getElementById("closeUpiPayment");
-
-        const qrContainer =
-            document.getElementById("upiQrCode");
-
-        if (!generateBtn || !modal || !backdrop || !qrContainer) {
-            console.error("UPI payment elements missing.");
-            return;
-        }
+        const generateBtn = document.getElementById("generatePaymentQrBtn");
+        const modal = document.getElementById("upiPaymentModal");
+        const backdrop = document.getElementById("upiPaymentBackdrop");
+        const closeBtn = document.getElementById("closeUpiPayment");
+        const qrContainer = document.getElementById("upiQrCode");
+        const submitBtn = document.getElementById("submitPaymentReference");
+        if (!generateBtn || !modal || !backdrop || !qrContainer || generateBtn.dataset.bound === "1") return;
+        generateBtn.dataset.bound = "1";
 
         function closeModal() {
             modal.style.display = "none";
@@ -46,447 +33,150 @@ const WHATSAPP_NUMBER = '917058729696';
             document.body.style.overflow = "";
         }
 
+        function showQrImageFallback(upiLink) {
+            qrContainer.innerHTML = "";
+            const img = document.createElement("img");
+            img.alt = "Scan this UPI QR code to pay";
+            img.width = 220;
+            img.height = 220;
+            img.style.cssText = "display:block;width:220px;height:220px;max-width:100%;object-fit:contain";
+            let fallbackUsed = false;
+            img.onerror = function () {
+                if (!fallbackUsed) {
+                    fallbackUsed = true;
+                    img.src = "https://quickchart.io/qr?size=220&text=" + encodeURIComponent(upiLink);
+                } else {
+                    qrContainer.innerHTML = '<p style="color:#b91c1c;padding:12px">QR image could not load. Please use the Pay Using UPI App button.</p>';
+                }
+            };
+            img.src = "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" + encodeURIComponent(upiLink);
+            qrContainer.appendChild(img);
+        }
+
         generateBtn.addEventListener("click", function () {
+            const customerName = document.getElementById("cartCustomerName")?.value.trim() || "";
+            const customerLocation = document.getElementById("cartCustomerLocation")?.value.trim() || "";
 
-            const customerName =
-                document.getElementById("cartCustomerName").value.trim();
-
-            const customerLocation =
-                document.getElementById("cartCustomerLocation").value.trim();
-
-            const totalText =
-                document.getElementById("cartDrawerTotal").textContent;
-
-            const amount = Number(
-                totalText.replace(/[₹,\s]/g, "")
-            );
+            // Always calculate the estimate from current cart lines and quantities.
+            const estimatedAmount = Array.isArray(cart)
+                ? cart.reduce((sum, item) => sum + (Number(item.price) * Number(item.qty)), 0)
+                : 0;
 
             if (!customerName || !customerLocation) {
                 alert("Please enter your name and delivery location.");
                 return;
             }
-
-            if (!Number.isFinite(amount) || amount <= 0) {
-                alert("Your order amount is invalid.");
+            if (!Array.isArray(cart) || cart.length === 0 || !Number.isFinite(estimatedAmount) || estimatedAmount <= 0) {
+                alert("Please add products to your order list before generating the payment QR.");
                 return;
             }
 
-            // Generate unique order reference
-            currentOrderId =
-                "SH" + Date.now().toString();
-
-            const amountFormatted = amount.toFixed(2);
-
-            const upiLink =
-                "upi://pay?" +
+            currentOrderId = "SH" + Date.now();
+            const amountFormatted = estimatedAmount.toFixed(2);
+            currentUpiLink = "upi://pay?" +
                 "pa=" + encodeURIComponent(UPI_ID) +
                 "&pn=" + encodeURIComponent(MERCHANT_NAME) +
                 "&am=" + encodeURIComponent(amountFormatted) +
-                "&cu=INR" +
-                "&tn=" + encodeURIComponent(currentOrderId);
+                "&cu=INR&tn=" + encodeURIComponent(currentOrderId);
 
-            document.getElementById("upiOrderId").textContent =
-                currentOrderId;
-
-            document.getElementById("upiPaymentAmount").textContent =
-                "₹" + amountFormatted;
-
-            // Generate QR
+            document.getElementById("upiOrderId").textContent = currentOrderId;
+            document.getElementById("upiPaymentAmount").textContent = "₹" + estimatedAmount.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            const merchantEl = document.getElementById("upiMerchantId");
+            if (merchantEl) merchantEl.textContent = UPI_ID;
             qrContainer.innerHTML = "";
 
-            if (typeof QRCode === "undefined") {
-                alert("QR library could not load. Please check your internet connection.");
-                return;
+            // Generate locally when QRCode.js is available; otherwise use two hosted fallbacks.
+            try {
+                if (typeof QRCode !== "undefined") {
+                    new QRCode(qrContainer, {
+                        text: currentUpiLink,
+                        width: 220,
+                        height: 220,
+                        colorDark: "#000000",
+                        colorLight: "#ffffff",
+                        correctLevel: QRCode.CorrectLevel ? QRCode.CorrectLevel.M : 0
+                    });
+                } else {
+                    showQrImageFallback(currentUpiLink);
+                }
+            } catch (error) {
+                console.error("Local UPI QR generation failed; using image fallback.", error);
+                showQrImageFallback(currentUpiLink);
             }
 
-            new QRCode(qrContainer, {
-                text: upiLink,
-                width: 220,
-                height: 220,
-                colorDark: "#000000",
-                colorLight: "#ffffff",
-                correctLevel: QRCode.CorrectLevel.H
-            });
-
-            // Open payment modal
+            const openUpiApp = document.getElementById("openUpiApp");
+            if (openUpiApp) openUpiApp.href = currentUpiLink;
             modal.style.display = "block";
             backdrop.style.display = "block";
             document.body.style.overflow = "hidden";
-
-            // Configure mobile UPI app button
-            document.getElementById("openUpiApp").href = upiLink;
-
         });
 
-        closeBtn.addEventListener("click", closeModal);
+        if (closeBtn) closeBtn.addEventListener("click", closeModal);
         backdrop.addEventListener("click", closeModal);
+        if (submitBtn) submitBtn.addEventListener("click", function () {
+            const utr = document.getElementById("paymentUtr")?.value.trim() || "";
+            if (!currentOrderId) { alert("Please generate your order payment QR first."); return; }
+            if (!/^[a-zA-Z0-9]{8,30}$/.test(utr)) { alert("Please enter a valid payment reference number (8–30 characters)."); return; }
+            if (!Array.isArray(cart) || cart.length === 0) { alert("Your cart is empty. Please add products and generate the QR again."); return; }
 
-        // Submit payment reference for manual verification
-        document.getElementById("submitPaymentReference")
-            .addEventListener("click", function () {
+            const customer = document.getElementById("cartCustomerName")?.value.trim() || "";
+            const location = document.getElementById("cartCustomerLocation")?.value.trim() || "";
+            const notes = document.getElementById("cartCustomerNotes")?.value.trim() || "";
+            const totalAmount = cart.reduce((sum, item) => sum + (Number(item.price) * Number(item.qty)), 0);
+            const totalItems = cart.reduce((sum, item) => sum + Number(item.qty), 0);
+            const productDetails = cart.map((item, index) => {
+                const qty = Number(item.qty);
+                const price = Number(item.price);
+                const lineTotal = qty * price;
+                return (index + 1) + ". " + item.name + "\n" +
+                    "   Quantity: " + qty + (item.unit ? " " + item.unit : "") + "\n" +
+                    "   Rate: ₹" + price.toFixed(2) + "\n" +
+                    "   Subtotal: ₹" + lineTotal.toFixed(2);
+            }).join("\n\n");
 
-                const utr =
-                    document.getElementById("paymentUtr").value.trim();
+            const message = "PAYMENT REFERENCE SUBMISSION - SHANKAR HARDWARE\n\n" +
+                "Order ID: " + currentOrderId + "\n" +
+                "Customer: " + customer + "\n" +
+                "Delivery Location: " + location + "\n\n" +
+                "ORDERED PRODUCTS:\n\n" + productDetails + "\n\n" +
+                "Total Items: " + totalItems + "\n" +
+                "Order Amount: ₹" + totalAmount.toFixed(2) + "\n\n" +
+                
+                "UTR / Payment Reference: " + utr + "\n\n" +
+                (notes ? "Customer Notes: " + notes + "\n\n" : "") +
+                "Please verify the payment against your bank statement and confirm this order.";
 
-                if (!currentOrderId) {
-                    alert("Please generate your order payment QR first.");
-                    return;
-                }
-
-                if (!/^[a-zA-Z0-9]{8,30}$/.test(utr)) {
-                    alert("Please enter a valid payment reference number.");
-                    return;
-                }
-
-                const amount =
-                    document.getElementById("upiPaymentAmount").textContent;
-
-                const customer =
-                    document.getElementById("cartCustomerName").value.trim();
-
-                const message =
-                    "Payment Reference Submission - Shankar Hardware\n\n" +
-                    "Order ID: " + currentOrderId + "\n" +
-                    "Customer: " + customer + "\n" +
-                    "Amount: " + amount + "\n" +
-                    "UPI ID: " + UPI_ID + "\n" +
-                    "UTR: " + utr + "\n\n" +
-                    "Please verify my payment and confirm my order.";
-
-                const whatsappUrl =
-                    "https://wa.me/917058729696?text=" +
-                    encodeURIComponent(message);
-
-                window.open(whatsappUrl, "_blank");
-
-            });
-
+            window.open("https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message), "_blank", "noopener");
+        });
     }
 
-    if (document.readyState === "loading") {
-        document.addEventListener(
-            "DOMContentLoaded",
-            initializeUpiPayment
-        );
-    } else {
-        initializeUpiPayment();
-    }
-
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initializeUpiPayment);
+    else initializeUpiPayment();
 })();
 
 // -------------------------------------------------------------
 // PRODUCT CATALOG DATABASE
-// Includes verified high-res images, categories, brands & specs
+// Catalog based on visible store inventory; product photos are intentionally not embedded.
+// Prices are indicative display values requested in the ₹100–₹400 range; verify actual shop rates before accepting orders.
 // -------------------------------------------------------------
 const PRODUCTS_DATA = [
-  {
-    id: 'prod-1',
-    name: 'Drop Forged Claw Hammer',
-    marathiName: 'ड्रॉप फोर्जब स्टील हातोडी (क्लॉ हॅमर)',
-    category: 'tools',
-    categoryLabel: 'Hand Tools',
-    price: 350,
-    unit: 'piece',
-    rating: 4.8,
-    reviews: 42,
-    brand: 'Taparia / Inder',
-    badge: 'Best Seller',
-    image: 'https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?auto=format&fit=crop&w=600&q=80',
-    fallbackIcon: 'fa-hammer',
-    specs: {
-      'Head Material': 'High Carbon Forged Steel',
-      'Handle': 'Shock-Absorbing Fiberglass Grip',
-      'Weight': '450g / 16 oz',
-      'Usage': 'Carpentry, Civil, Farm Repair'
-    },
-    description: 'Heavy-duty claw hammer forged from hardened carbon steel. Built with ergonomic anti-slip rubber grip for vibration absorption.'
-  },
-  {
-    id: 'prod-2',
-    name: '750W Heavy Duty Impact Drill',
-    marathiName: '७५० वॅट हेवी ड्युटी इम्पॅक्ट ड्रिल मशीन',
-    category: 'tools',
-    categoryLabel: 'Power Tools',
-    price: 2850,
-    unit: 'piece',
-    rating: 4.9,
-    reviews: 68,
-    brand: 'Bosch / Dongcheng',
-    badge: 'Popular',
-    image: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&w=600&q=80',
-    fallbackIcon: 'fa-screwdriver-wrench',
-    specs: {
-      'Power Input': '750 Watts Copper Motor',
-      'Chuck Capacity': '13 mm Keyed Chuck',
-      'No-Load Speed': '0 - 2,800 RPM',
-      'Modes': 'Drilling & Hammer Drilling'
-    },
-    description: 'High performance variable speed impact drill suitable for masonry, wood, steel drilling and farm workshop installations.'
-  },
-  {
-    id: 'prod-3',
-    name: 'Masonry Trowel (Heavy Construction)',
-    marathiName: 'गवंडी काम थापी (मेसनरी ट्रोवेल)',
-    category: 'tools',
-    categoryLabel: 'Civil Tools',
-    price: 220,
-    unit: 'piece',
-    rating: 4.5,
-    reviews: 29,
-    brand: 'Shankar Pro',
-    badge: 'Durable',
-    image: 'https://images.unsplash.com/photo-1581783342308-f792dbdd27c5?auto=format&fit=crop&w=600&q=80',
-    fallbackIcon: 'fa-trowel',
-    specs: {
-      'Blade Material': 'Tempered Spring Steel',
-      'Blade Size': '7 Inch London Pattern',
-      'Handle': 'Ergonomic Seasoned Wood Handle',
-      'Application': 'Bricklaying, Plastering, Pointing'
-    },
-    description: 'Precision balanced bricklaying trowel with welded shank and rust-resistant polished steel blade.'
-  },
-  {
-    id: 'prod-4',
-    name: 'Adjustable Pipe Wrench 14"',
-    marathiName: '१४ इंच ॲडजस्टेबल पाईप पाना (रेंच)',
-    category: 'tools',
-    categoryLabel: 'Plumbing Tools',
-    price: 650,
-    unit: 'piece',
-    rating: 4.7,
-    reviews: 51,
-    brand: 'Taparia / Eastman',
-    badge: 'Plumber Favorite',
-    image: 'https://images.unsplash.com/photo-1616401784845-180882ba9ba8?auto=format&fit=crop&w=600&q=80',
-    fallbackIcon: 'fa-wrench',
-    specs: {
-      'Size': '14 Inch (350mm)',
-      'Pipe Capacity': 'Up to 50mm (2")',
-      'Jaw Material': 'Drop Forged Alloy Steel',
-      'Body': 'Heavy Duty Ductile Iron'
-    },
-    description: 'Hardened self-cleaning serrated jaws for tight grip on borewell pipes, GI fittings, and irrigation joints without slippage.'
-  },
-  {
-    id: 'prod-5',
-    name: '2HP Submersible Farming Pump (10-Stage)',
-    marathiName: '२ एचपी सबमर्सिबल शेती बोरवेल पंप',
-    category: 'pumps',
-    categoryLabel: 'Pumps & Motors',
-    price: 14500,
-    unit: 'unit',
-    rating: 4.8,
-    reviews: 84,
-    brand: 'Kirloskar / Crompton',
-    badge: 'Farmer First',
-    image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80',
-    fallbackIcon: 'fa-water',
-    specs: {
-      'Horsepower': '2.0 HP (1.5 kW)',
-      'Borewell Size': '100mm (4 Inch)',
-      'Discharge Head': 'Up to 240 Feet',
-      'Winding': '100% Electrolytic Grade Copper'
-    },
-    description: 'High-head agricultural water-filled submersible pump engineered for Indian borewell conditions with low voltage running capability.'
-  },
-  {
-    id: 'prod-6',
-    name: 'Brass Pump Impeller Spare (Original)',
-    marathiName: 'ओरिजनल पितळी पंप इम्पेलर स्पेअर',
-    category: 'pumps',
-    categoryLabel: 'Pump Spares',
-    price: 850,
-    unit: 'piece',
-    rating: 4.4,
-    reviews: 33,
-    brand: 'Apex / Genuine OEM',
-    badge: 'Genuine Spare',
-    image: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=600&q=80',
-    fallbackIcon: 'fa-gear',
-    specs: {
-      'Material': 'High-Grade Gunmetal / Brass',
-      'Vane Design': 'Enclosed Radial Flow',
-      'Compatibility': '1.5HP to 3HP Openwell & Submersible',
-      'Corrosion Resistance': 'High Salinity & Sand Resistant'
-    },
-    description: 'CNC machined dynamically balanced brass impeller for maximum water discharge and minimal motor power consumption.'
-  },
-  {
-    id: 'prod-7',
-    name: 'Irrigation PVC Ball Valve 2" (Heavy)',
-    marathiName: '२ इंच हेवी इरिगेशन पीव्हीसी बॉल व्हॉल्व्ह',
-    category: 'pumps',
-    categoryLabel: 'Plumbing & Valves',
-    price: 320,
-    unit: 'piece',
-    rating: 4.6,
-    reviews: 47,
-    brand: 'Supreme / Finolex',
-    badge: 'Drip Ready',
-    image: 'https://images.unsplash.com/photo-1607400201515-c2c41c07d307?auto=format&fit=crop&w=600&q=80',
-    fallbackIcon: 'fa-faucet-drip',
-    specs: {
-      'Diameter': '2 Inch (50mm)',
-      'Pressure Rating': '10 kg/cm² (PN 10)',
-      'End Connection': 'Solvent Cement Socket',
-      'Seal': 'PTFE / EPDM Leakproof Ring'
-    },
-    description: 'UV stabilized agricultural drip irrigation shut-off ball valve with smooth turning torque and zero pressure loss.'
-  },
-  {
-    id: 'prod-8',
-    name: 'Galvanized Wood Screws (Box of 500)',
-    marathiName: 'गॅल्व्हनाईज्ड लाकूड स्क्रू बॉक्स (५०० नग)',
-    category: 'hardware',
-    categoryLabel: 'Fasteners',
-    price: 450,
-    unit: 'box',
-    rating: 4.7,
-    reviews: 38,
-    brand: 'Hilti / Star',
-    badge: 'Anti-Rust',
-    image: 'https://images.unsplash.com/photo-1581147036324-c17ac41dfa6c?auto=format&fit=crop&w=600&q=80',
-    fallbackIcon: 'fa-screw',
-    specs: {
-      'Size Range': '1.5" to 3" Assorted / Specific',
-      'Coating': 'Electro-Galvanized Zinc Plated',
-      'Drive Type': 'Deep Cross Phillips Drive',
-      'Quantity': '500 Pcs per pack'
-    },
-    description: 'Sharp self-tapping thread design for rapid bite into hardwood, ply boards, farm sheds, and PVC sheets without splitting.'
-  },
-  {
-    id: 'prod-9',
-    name: 'High-Tensile Grade 8.8 Nut & Bolt',
-    marathiName: 'हाय-टेन्साईल ग्रेड ८.८ नट-बोल्ट (किलोवर)',
-    category: 'hardware',
-    categoryLabel: 'Fasteners',
-    price: 180,
-    unit: 'kg',
-    rating: 4.9,
-    reviews: 95,
-    brand: 'Unbrako / TVS Fasteners',
-    badge: 'Contractor Special',
-    image: 'https://images.unsplash.com/photo-1586864387789-628af9feed72?auto=format&fit=crop&w=600&q=80',
-    fallbackIcon: 'fa-gears',
-    specs: {
-      'Grade': 'Grade 8.8 High Strength',
-      'Finish': 'Black Oxide / Yellow Passivated',
-      'Thread': 'Metric Coarse ISO Standards',
-      'Sale Unit': 'Sold per kg with digital scale'
-    },
-    description: 'Heavy machinery and tractor implement bolts with certified 800 MPa tensile strength. High vibration shear resistance.'
-  },
-  {
-    id: 'prod-10',
-    name: 'Stainless Steel SS-304 Washers (100 Pcs)',
-    marathiName: 'एसएस-३०४ स्टेनलेस स्टील वॉशर पॅक',
-    category: 'hardware',
-    categoryLabel: 'Fasteners',
-    price: 120,
-    unit: 'pack',
-    rating: 4.5,
-    reviews: 26,
-    brand: 'Precision SS',
-    badge: 'Marine Grade',
-    image: 'https://images.unsplash.com/photo-1530124566582-a618bc2615dc?auto=format&fit=crop&w=600&q=80',
-    fallbackIcon: 'fa-circle-dot',
-    specs: {
-      'Material': 'Grade 304 Stainless Steel',
-      'Standard': 'DIN 125 Flat & Spring',
-      'Sizes': 'M6, M8, M10, M12 Available',
-      'Resistance': '100% Rust-proof in water/chemical'
-    },
-    description: 'Anti-corrosive stainless steel plain and spring washers for borewell flanges, chemical sprayers, and farm trailers.'
-  },
-  {
-    id: 'prod-11',
-    name: 'Heavy Duty Nylon Braided Rope (50m Coil)',
-    marathiName: 'नायलॉन ब्रेडेड मजबूत दोरी (५० मीटर)',
-    category: 'ropes',
-    categoryLabel: 'Ropes & Farm',
-    price: 650,
-    unit: 'coil',
-    rating: 4.6,
-    reviews: 41,
-    brand: 'Garware / Supreme',
-    badge: 'Tough Grade',
-    image: 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?auto=format&fit=crop&w=600&q=80',
-    fallbackIcon: 'fa-link',
-    specs: {
-      'Diameter': '12 mm High Density',
-      'Length': '50 Meters Bundle',
-      'Breaking Load': '1,450 kgf',
-      'Weathering': 'UV & Abrasion Protected'
-    },
-    description: 'Multi-strand twisted virgin nylon rope designed for borewell motor suspension, cattle tie, and sugarcane transport.'
-  },
-  {
-    id: 'prod-12',
-    name: 'Galvanized Iron Animal & Tow Chain (10ft)',
-    marathiName: 'गॅल्व्हनाईज्ड लोखंडी जनावरांची साखळी (१० फूट)',
-    category: 'ropes',
-    categoryLabel: 'Ropes & Chains',
-    price: 950,
-    unit: 'piece',
-    rating: 4.8,
-    reviews: 57,
-    brand: 'Shankar Forge',
-    badge: 'Heavy Gauge',
-    image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80',
-    fallbackIcon: 'fa-link',
-    specs: {
-      'Gauge': '8 mm Link Thickness',
-      'Length': '10 Feet with Forged Hooks',
-      'Plating': 'Hot-Dip Galvanized Anti-Corrosion',
-      'Strength': 'Tested for Bull & Tractor Hauling'
-    },
-    description: 'Solid welded high-durability iron chain with swivel rings to prevent twisting and knotting during dairy and field use.'
-  },
-  {
-    id: 'prod-13',
-    name: '4-Inch Angle Grinder 850W (Metal/Tile Cutter)',
-    marathiName: '४ इंच ॲंगल ग्राइंडर ८५० वॅट',
-    category: 'tools',
-    categoryLabel: 'Power Tools',
-    price: 2450,
-    unit: 'piece',
-    rating: 4.8,
-    reviews: 36,
-    brand: 'Dongcheng / Stanley',
-    badge: 'Workshop Essential',
-    image: 'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?auto=format&fit=crop&w=600&q=80',
-    fallbackIcon: 'fa-screwdriver-wrench',
-    specs: {
-      'Power': '850 Watts High Torque',
-      'Wheel Diameter': '100 mm (4 Inch)',
-      'Speed': '11,000 RPM',
-      'Spindle Thread': 'M10'
-    },
-    description: 'Compact metal fabrication grinder for cutting rebar, stone, farm implements, and smoothing welding seams.'
-  },
-  {
-    id: 'prod-14',
-    name: '1HP Openwell Agricultural Monoblock Pump',
-    marathiName: '१ एचपी ओपनवेल शेती मोनोब्लॉक पंप',
-    category: 'pumps',
-    categoryLabel: 'Pumps & Motors',
-    price: 7800,
-    unit: 'unit',
-    rating: 4.7,
-    reviews: 49,
-    brand: 'Crompton / Kirloskar',
-    badge: 'High Discharge',
-    image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80',
-    fallbackIcon: 'fa-water',
-    specs: {
-      'Power': '1.0 HP Single Phase',
-      'Head Range': '6 to 28 Meters',
-      'Discharge': 'Up to 350 Litres / Min',
-      'Impeller': 'Corrosion Resistant Gunmetal'
-    },
-    description: 'Reliable water pump for open farm wells, rivers, and canal lifting. Designed with heavy duty cast iron casing.'
-  }
+  { id: 'Test', name: 'Test', marathiName: 'टेस्ट', category: 'ropes', categoryLabel: 'Ropes & Cords', price: 1, unit: 'coil', rating: 0, reviews: 0, brand: 'Ask in store', badge: 'Ropes', fallbackIcon: 'fa-link', specs: { 'Price': 'Indicative starting price ₹1; confirm exact size and rate', 'Availability': 'Subject to current stock' }, description: 'Different thicknesses and coil lengths; confirm exact size and material.' },
+  { id: 'rope-nylon', name: 'Nylon / PP Rope Coil', marathiName: 'नायलॉन / पीपी दोरी', category: 'ropes', categoryLabel: 'Ropes & Cords', price: 250, unit: 'coil', rating: 0, reviews: 0, brand: 'Ask in store', badge: 'Ropes', fallbackIcon: 'fa-link', specs: { 'Price': 'Indicative starting price ₹250; confirm exact size and rate', 'Availability': 'Subject to current stock' }, description: 'Different thicknesses and coil lengths; confirm exact size and material.' },
+  { id: 'wire-binding', name: 'GI Binding Wire Coil', marathiName: 'जीआय बांधकाम वायर', category: 'hardware', categoryLabel: 'Wire & Fasteners', price: 180, unit: 'kg', rating: 0, reviews: 0, brand: 'Ask in store', badge: 'Wire Stock', fallbackIcon: 'fa-grip-lines', specs: { 'Price': 'Indicative starting price ₹180; confirm exact size and rate', 'Availability': 'Subject to current stock' }, description: 'Galvanized wire for tying, fencing and general hardware work.' },
+  { id: 'wire-ms', name: 'MS / GI Steel Wire Coil', marathiName: 'एमएस / जीआय स्टील वायर', category: 'hardware', categoryLabel: 'Wire & Fasteners', price: 220, unit: 'kg', rating: 0, reviews: 0, brand: 'Ask in store', badge: 'Wire Stock', fallbackIcon: 'fa-circle-nodes', specs: { 'Price': 'Indicative starting price ₹220; confirm exact size and rate', 'Availability': 'Subject to current stock' }, description: 'Wire coils are visible in the store; confirm gauge and finish before ordering.' },
+  { id: 'chain-lifting', name: 'Lifting Chain & Hooks', marathiName: 'लिफ्टिंग चेन आणि हुक', category: 'ropes', categoryLabel: 'Chains & Lifting', price: 400, unit: 'piece', rating: 0, reviews: 0, brand: 'Ask in store', badge: 'Lifting Hardware', fallbackIcon: 'fa-link', specs: { 'Price': 'Indicative starting price ₹400; confirm exact size and rate', 'Availability': 'Subject to current stock' }, description: 'Metal chains, hooks and lifting hardware; confirm safe working load and size.' },
+  { id: 'pulley-hoist', name: 'Pulley / Chain Block Hardware', marathiName: 'पुली आणि चेन ब्लॉक साहित्य', category: 'hardware', categoryLabel: 'Lifting Hardware', price: 350, unit: 'piece', rating: 0, reviews: 0, brand: 'Ask in store', badge: 'Hardware', fallbackIcon: 'fa-gears', specs: { 'Price': 'Indicative starting price ₹350; confirm exact size and rate', 'Availability': 'Subject to current stock' }, description: 'Assorted pulley and lifting components; confirm capacity and model.' },
+  { id: 'pvc-pipe', name: 'PVC Pipe Sections', marathiName: 'पीव्हीसी पाईप', category: 'pumps', categoryLabel: 'Pipes & Fittings', price: 300, unit: 'length', rating: 0, reviews: 0, brand: 'Ask in store', badge: 'Plumbing', fallbackIcon: 'fa-grip-lines', specs: { 'Price': 'Indicative starting price ₹300; confirm exact size and rate', 'Availability': 'Subject to current stock' }, description: 'PVC pipe stock; confirm diameter, pressure class and length.' },
+  { id: 'pvc-elbow', name: 'PVC Elbow & Tee Fittings', marathiName: 'पीव्हीसी एल्बो आणि टी फिटिंग', category: 'pumps', categoryLabel: 'Pipes & Fittings', price: 120, unit: 'piece', rating: 0, reviews: 0, brand: 'Ask in store', badge: 'Fittings', fallbackIcon: 'fa-share-nodes', specs: { 'Price': 'Indicative starting price ₹120; confirm exact size and rate', 'Availability': 'Subject to current stock' }, description: 'PVC elbows, tees and connectors in assorted sizes.' },
+  { id: 'pvc-coupler', name: 'PVC Couplers & Sockets', marathiName: 'पीव्हीसी कपलर आणि सॉकेट', category: 'pumps', categoryLabel: 'Pipes & Fittings', price: 100, unit: 'piece', rating: 0, reviews: 0, brand: 'Ask in store', badge: 'Fittings', fallbackIcon: 'fa-circle-notch', specs: { 'Price': 'Indicative starting price ₹100; confirm exact size and rate', 'Availability': 'Subject to current stock' }, description: 'Pipe joining sockets and couplers; confirm diameter.' },
+  { id: 'water-hose', name: 'Flexible Water Hose / Pipe', marathiName: 'लवचिक पाण्याची नळी', category: 'pumps', categoryLabel: 'Water & Irrigation', price: 350, unit: 'coil', rating: 0, reviews: 0, brand: 'Ask in store', badge: 'Irrigation', fallbackIcon: 'fa-water', specs: { 'Price': 'Indicative starting price ₹350; confirm exact size and rate', 'Availability': 'Subject to current stock' }, description: 'Flexible hose and irrigation pipe in assorted sizes.' },
+  { id: 'plastic-bucket', name: 'Plastic Buckets & Tubs', marathiName: 'प्लास्टिक बादल्या आणि टब', category: 'hardware', categoryLabel: 'Plastic Utility', price: 150, unit: 'piece', rating: 0, reviews: 0, brand: 'Ask in store', badge: 'Utility', fallbackIcon: 'fa-bucket', specs: { 'Price': 'Indicative starting price ₹150; confirm exact size and rate', 'Availability': 'Subject to current stock' }, description: 'Plastic buckets and tubs in assorted capacities and colours.' },
+  { id: 'tarpaulin', name: 'HDPE Tarpaulin Sheets', marathiName: 'एचडीपीई ताडपत्री', category: 'ropes', categoryLabel: 'Farm & Utility', price: 400, unit: 'piece', rating: 0, reviews: 0, brand: 'Ask in store', badge: 'Farm Utility', fallbackIcon: 'fa-sheet-plastic', specs: { 'Price': 'Indicative starting price ₹400; confirm exact size and rate', 'Availability': 'Subject to current stock' }, description: 'Folded tarpaulin sheets; confirm dimensions, GSM and colour.' },
+  { id: 'woven-sacks', name: 'Woven PP / HDPE Sacks', marathiName: 'पीपी / एचडीपीई पोती', category: 'ropes', categoryLabel: 'Farm & Utility', price: 100, unit: 'piece', rating: 0, reviews: 0, brand: 'Ask in store', badge: 'Farm Utility', fallbackIcon: 'fa-bag-shopping', specs: { 'Price': 'Indicative starting price ₹100; confirm exact size and rate', 'Availability': 'Subject to current stock' }, description: 'Sacks and woven bags for storage and transport; confirm size and capacity.' },
+  { id: 'agri-hose', name: 'Agricultural Spray / Delivery Hose', marathiName: 'शेती फवारणी / डिलिव्हरी होज', category: 'pumps', categoryLabel: 'Water & Irrigation', price: 380, unit: 'coil', rating: 0, reviews: 0, brand: 'Ask in store', badge: 'Irrigation', fallbackIcon: 'fa-water', specs: { 'Price': 'Indicative starting price ₹380; confirm exact size and rate', 'Availability': 'Subject to current stock' }, description: 'Assorted hose stock; confirm pressure rating, diameter and use.' },
+  { id: 'metal-pipe', name: 'Metal Pipes / Tubes', marathiName: 'लोखंडी पाईप आणि ट्यूब', category: 'hardware', categoryLabel: 'Metal Sections', price: 400, unit: 'length', rating: 0, reviews: 0, brand: 'Ask in store', badge: 'Hardware', fallbackIcon: 'fa-grip-lines', specs: { 'Price': 'Indicative starting price ₹400; confirm exact size and rate', 'Availability': 'Subject to current stock' }, description: 'Metal pipe/tube stock; confirm material, thickness and length.' },
+  { id: 'wooden-handles', name: 'Wooden Handles / Poles', marathiName: 'लाकडी दांडे', category: 'tools', categoryLabel: 'Tools & Accessories', price: 120, unit: 'piece', rating: 0, reviews: 0, brand: 'Ask in store', badge: 'Tools', fallbackIcon: 'fa-hammer', specs: { 'Price': 'Indicative starting price ₹120; confirm exact size and rate', 'Availability': 'Subject to current stock' }, description: 'Wooden handles and poles visible in bundled stock; confirm dimensions.' },
+  { id: 'hardware-assorted', name: 'General Hardware Accessories', marathiName: 'विविध हार्डवेअर साहित्य', category: 'tools', categoryLabel: 'Tools & Accessories', price: 150, unit: 'piece', rating: 0, reviews: 0, brand: 'Ask in store', badge: 'Hardware', fallbackIcon: 'fa-screwdriver-wrench', specs: { 'Price': 'Indicative starting price ₹150; confirm exact size and rate', 'Availability': 'Subject to current stock' }, description: 'Assorted shop hardware and accessories; send a photo or description for exact identification.' }
 ];
 
 // -------------------------------------------------------------
@@ -499,6 +189,11 @@ function loadCart() {
     const saved = localStorage.getItem('shankar_cart');
     if (saved) {
       cart = JSON.parse(saved);
+      // Keep existing cart lines aligned with the latest catalog prices.
+      cart = cart.map(item => {
+        const currentProduct = PRODUCTS_DATA.find(product => product.id === item.id);
+        return currentProduct ? { ...item, price: currentProduct.price, unit: currentProduct.unit, name: currentProduct.name } : item;
+      });
     }
   } catch (e) {
     console.error('Failed to parse cart storage', e);
@@ -529,7 +224,7 @@ function addToCart(productId, qty = 1) {
       name: product.name,
       price: product.price,
       unit: product.unit,
-      image: product.image,
+      image: null,
       qty: qty
     });
   }
@@ -578,10 +273,10 @@ function renderCategoryPills() {
   if (!container) return;
 
   const categories = [
-    { id: 'pumps', name: 'Water Pumps & Spares', count: '4 Items', icon: 'fa-water' },
-    { id: 'tools', name: 'Hand & Power Tools', count: '5 Items', icon: 'fa-screwdriver-wrench' },
-    { id: 'hardware', name: 'Nuts, Bolts & Fasteners', count: '3 Items', icon: 'fa-gears' },
-    { id: 'ropes', name: 'Ropes & Heavy Chains', count: '2 Items', icon: 'fa-link' }
+    { id: 'pumps', name: 'Pipes & Irrigation', count: `${PRODUCTS_DATA.filter(p => p.category === 'pumps').length} Items`, icon: 'fa-water' },
+    { id: 'tools', name: 'Tools & Accessories', count: `${PRODUCTS_DATA.filter(p => p.category === 'tools').length} Items`, icon: 'fa-screwdriver-wrench' },
+    { id: 'hardware', name: 'Wire & General Hardware', count: `${PRODUCTS_DATA.filter(p => p.category === 'hardware').length} Items`, icon: 'fa-gears' },
+    { id: 'ropes', name: 'Ropes, Chains & Farm Utility', count: `${PRODUCTS_DATA.filter(p => p.category === 'ropes').length} Items`, icon: 'fa-link' }
   ];
 
   container.innerHTML = categories.map(cat => `
@@ -664,12 +359,12 @@ function renderProductsGrid() {
     const displayName = (isMarathi && prod.marathiName) ? prod.marathiName : prod.name;
     const badgeTagClass = `tag-${prod.category}`;
     const firstSpec = Object.entries(prod.specs)[0];
-    const specSnippet = firstSpec ? `${firstSpec[0]}: <strong>${firstSpec[1]}</strong>` : prod.description.slice(0, 60) + '...';
+    const specSnippet = prod.description;
 
     return `
       <div class="product-card" data-id="${prod.id}">
         <div class="card-image-wrap">
-          <img src="${prod.image}" alt="${prod.name}" class="product-thumbnail" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80';" />
+          <div class="product-icon-art" aria-label="${prod.name}"><i class="fa-solid ${prod.fallbackIcon}"></i></div>
           <div class="badge-overlay-wrap">
             <span class="badge-tag ${badgeTagClass}">${prod.categoryLabel}</span>
             ${prod.badge ? `<span class="badge-tag" style="background:#0f172a; color:#fff;">${prod.badge}</span>` : ''}
@@ -682,14 +377,14 @@ function renderProductsGrid() {
         <div class="card-body">
           <div class="card-meta-row">
             <span class="product-brand"><i class="fa-solid fa-award"></i> ${prod.brand}</span>
-            <span class="product-rating"><i class="fa-solid fa-star"></i> ${prod.rating} (${prod.reviews})</span>
+            <span class="product-rating">Stock enquiry</span>
           </div>
 
           <h3 class="product-name" title="${displayName}">${displayName}</h3>
           <p class="product-spec-snippet">${specSnippet}</p>
 
           <div class="card-price-row">
-            <span class="price-inr">₹${prod.price.toLocaleString('en-IN')}</span>
+            <span class="price-inr">${prod.price > 0 ? `₹${prod.price.toLocaleString('en-IN')}` : 'Ask for Price'}</span>
             <span class="price-unit">/ ${prod.unit}</span>
           </div>
 
@@ -719,8 +414,10 @@ function updateCartUI() {
 
   if (badge) badge.textContent = totalItems;
   if (drawerCount) drawerCount.textContent = totalItems;
-  if (totalSummary) totalSummary.textContent = `₹${totalPrice.toLocaleString('en-IN')}`;
-  if (drawerTotal) drawerTotal.textContent = `₹${totalPrice.toLocaleString('en-IN')}`;
+  const hasUnpricedItems = cart.some(item => !Number.isFinite(Number(item.price)) || Number(item.price) <= 0);
+  const totalLabel = hasUnpricedItems ? 'Quote required' : `₹${totalPrice.toLocaleString('en-IN')}`;
+  if (totalSummary) totalSummary.textContent = totalLabel;
+  if (drawerTotal) drawerTotal.textContent = totalLabel;
 
   if (!itemsContainer) return;
 
@@ -742,10 +439,10 @@ function updateCartUI() {
 
   itemsContainer.innerHTML = cart.map(item => `
     <div class="cart-item-row" data-id="${item.id}">
-      <img src="${item.image}" alt="${item.name}" class="cart-item-img" onerror="this.src='https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=120&q=80';" />
+      <div class="cart-item-icon"><i class="fa-solid fa-box"></i></div>
       <div class="cart-item-details">
         <h4 class="cart-item-title">${item.name}</h4>
-        <span class="cart-item-price">₹${item.price.toLocaleString('en-IN')} / ${item.unit}</span>
+        <span class="cart-item-price">${item.price > 0 ? `₹${item.price.toLocaleString('en-IN')}` : 'Price on request'} / ${item.unit}</span>
         <div class="cart-qty-stepper">
           <button class="qty-btn" onclick="updateCartQty('${item.id}', -1)" aria-label="Decrease quantity">-</button>
           <span class="qty-display">${item.qty}</span>
@@ -791,12 +488,12 @@ function sendCartToWhatsApp() {
   message += `📦 *ITEMS ORDERED (${totalItems} items):*\n`;
 
   cart.forEach((item, idx) => {
-    const lineTotal = item.price * item.qty;
+    const lineTotal = Number(item.price) * item.qty;
     message += `${idx + 1}. *${item.name}*\n`;
-    message += `   Qty: ${item.qty} ${item.unit} × ₹${item.price.toLocaleString('en-IN')} = ₹${lineTotal.toLocaleString('en-IN')}\n`;
+    message += `   Qty: ${item.qty} ${item.unit} — ${item.price > 0 ? `₹${item.price.toLocaleString('en-IN')} (line total ₹${lineTotal.toLocaleString('en-IN')})` : 'Please quote current rate'}\n`;
   });
 
-  message += `\n💰 *ESTIMATED TOTAL:* ₹${totalPrice.toLocaleString('en-IN')}\n`;
+  message += `\n💰 *ESTIMATED TOTAL:* ${cart.some(item => !item.price) ? 'To be confirmed by store' : `₹${totalPrice.toLocaleString('en-IN')}`}\n`;
   message += `--------------------------------------\n`;
   message += `Please confirm availability, transport dispatch, and bank/UPI payment details. Thank you!`;
 
@@ -814,7 +511,7 @@ function directProductWhatsApp(productId) {
   let message = `Hello Shankar Hardware (+91 7058729696),\n`;
   message += `I am interested in ordering this product:\n\n`;
   message += `🏷️ *Product:* ${product.name}\n`;
-  message += `💵 *Price:* ₹${product.price.toLocaleString('en-IN')} / ${product.unit}\n`;
+  message += `💵 *Price:* ${product.price > 0 ? `₹${product.price.toLocaleString('en-IN')}` : 'Please quote current rate'} / ${product.unit}\n`;
   message += `🏭 *Brand:* ${product.brand}\n`;
   message += `📌 *Category:* ${product.categoryLabel}\n\n`;
   message += `Please share stock availability and delivery options to my location.`;
@@ -845,16 +542,16 @@ function openProductModal(productId) {
 
   content.innerHTML = `
     <div class="modal-image-col">
-      <img src="${product.image}" alt="${product.name}" onerror="this.src='https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80';" />
+      <div class="product-icon-art product-modal-icon"><i class="fa-solid ${product.fallbackIcon}"></i></div>
     </div>
     <div class="modal-info-col">
       <span class="badge-tag tag-${product.category}" style="display:inline-block; margin-bottom:0.5rem;">${product.categoryLabel}</span>
       <h2 style="font-family:var(--font-heading); font-size:1.5rem; margin-bottom:0.4rem; color:var(--dark);">${product.name}</h2>
       <div style="color:var(--amber-dark); font-size:0.85rem; font-weight:700; margin-bottom:0.75rem;">
-        <i class="fa-solid fa-star"></i> ${product.rating} / 5.0 (${product.reviews} customer ratings)
+        <i class="fa-solid fa-star"></i> Availability and price confirmed by store
       </div>
       <div style="font-size:1.6rem; font-weight:800; color:var(--primary-dark); font-family:var(--font-heading); margin-bottom:0.75rem;">
-        ₹${product.price.toLocaleString('en-IN')} <span style="font-size:0.9rem; color:var(--slate-500); font-weight:500;">/ ${product.unit}</span>
+        ${product.price > 0 ? `₹${product.price.toLocaleString('en-IN')}` : 'Price on request'} <span style="font-size:0.9rem; color:var(--slate-500); font-weight:500;">/ ${product.unit}</span>
       </div>
       <p style="font-size:0.9rem; color:var(--slate-600); line-height:1.5; margin-bottom:1rem;">${product.description}</p>
       

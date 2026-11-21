@@ -2783,3 +2783,52 @@ button, input, select, textarea {
         line-height: 1.8;
     }
 }
+
+
+/* Product artwork placeholders: intentionally no shop/location photos are used. */
+.product-icon-art {
+  width: 100%; min-height: 190px; height: 190px; display: flex;
+  align-items: center; justify-content: center;
+  color: #1d4ed8; background: linear-gradient(135deg, #eff6ff, #e2e8f0);
+  font-size: 4rem;
+}
+.product-modal-icon { min-height: 240px; height: 100%; font-size: 5rem; border-radius: 12px; }
+.cart-item-icon { width: 58px; height: 58px; flex: 0 0 58px; display:flex; align-items:center; justify-content:center;
+  border-radius: 10px; background:#eff6ff; color:#1d4ed8; font-size:1.35rem; }
+#cartPaymentAmount { border:1px solid #cbd5e1; border-radius:8px; padding:11px 12px; width:100%; }
+
+/* UPI PAYMENT MODAL VISIBILITY FIX
+   The generic .product-modal rules later in this file hide all product modals.
+   Override those rules specifically for the UPI modal. JavaScript controls display. */
+#upiPaymentModal.upi-payment-modal {
+  display: none;
+  visibility: visible;
+  opacity: 1;
+  transform: translate(-50%, -50%);
+  z-index: 100001;
+}
+
+#upiPaymentBackdrop.modal-backdrop {
+  display: none;
+  visibility: visible;
+  opacity: 1;
+  z-index: 100000;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: none;
+}
+
+#upiQrCode {
+  min-width: 250px;
+  min-height: 250px;
+  align-items: center;
+  justify-content: center;
+}
+
+#upiQrCode img,
+#upiQrCode canvas {
+  display: block;
+  width: 220px !important;
+  height: 220px !important;
+  max-width: 100%;
+  object-fit: contain;
+}

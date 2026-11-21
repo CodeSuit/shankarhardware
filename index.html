@@ -38,7 +38,7 @@
 
         <div class="upi-order-details">
             <p>Order ID: <strong id="upiOrderId"></strong></p>
-            <p>Payment Amount:</p>
+            <p>Estimated Payment Amount:</p>
             <h2 id="upiPaymentAmount">₹0.00</h2>
         </div>
 
@@ -47,7 +47,7 @@
                     background:white;padding:15px;">
         </div>
 
-        <p><strong>UPI ID:</strong> 7058729696@axl</p>
+        <p><strong>UPI ID:</strong> <span id="upiMerchantId">Q966324428@ybl</span></p>
 
         <a href="#" id="openUpiApp"
            class="btn btn-primary btn-block">
@@ -492,7 +492,7 @@
 
         <!-- Product Cards Grid -->
         <div class="products-grid" id="productsGrid">
-          <!-- Dynamically populated by app.js with rich images, badges, specs, and WhatsApp order buttons -->
+          <!-- Dynamically populated by app.js with inventory icons, details, and WhatsApp enquiry buttons -->
         </div>
 
         <!-- No Results Fallback -->
@@ -854,6 +854,7 @@
         <input type="text" id="cartCustomerName" placeholder="Your Name / Farm Name *" class="cart-input" />
         <input type="text" id="cartCustomerLocation" placeholder="Delivery Town/Village (e.g. Sonwadi) *" class="cart-input" />
         <textarea id="cartCustomerNotes" placeholder="Special requirements or notes (optional)" class="cart-input" rows="2"></textarea>
+        <p class="tax-note">UPI QR amount is calculated automatically from your estimated order subtotal.</p>
       </div>
 <button type="button" id="generatePaymentQrBtn" class="btn btn-primary btn-block btn-large"> <i class="fa-solid fa-qrcode"></i> Generate UPI Payment QR </button>
       <button id="sendCartToWhatsAppBtn" class="btn btn-whatsapp btn-block btn-large">
@@ -957,8 +958,7 @@
       </div>
     </div>
   </footer>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js';"></script>
 <script src="app.js"></script>
-  <script src="app.js"></script>
 </body>
 </html>
