@@ -2616,3 +2616,94 @@ button, input, select, textarea {
         background: #e2e8f0;
     }
 }
+
+/* ==========================================
+   FOOTER LINKS - VISIBILITY FIX
+========================================== */
+
+.main-footer {
+    background: #0f172a;
+    color: #cbd5e1;
+}
+
+/* Footer headings */
+.footer-heading {
+    color: #ffffff !important;
+}
+
+/* Quick navigation and category links */
+.footer-links a {
+    color: #e2e8f0 !important;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+/* Footer link icons */
+.footer-links a i {
+    color: #fbbf24;
+    font-size: 12px;
+}
+
+/* Hover effect */
+.footer-links a:hover {
+    color: #fbbf24 !important;
+    transform: translateX(5px);
+    text-decoration: underline;
+}
+
+/* Footer address and operating hours */
+.footer-address {
+    color: #e2e8f0 !important;
+}
+
+.footer-hours {
+    color: #cbd5e1 !important;
+}
+
+.footer-hours span {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+/* Footer description */
+.footer-bio {
+    color: #cbd5e1 !important;
+}
+
+/* Copyright */
+.copyright-text {
+    color: #cbd5e1 !important;
+}
+
+/* Footer security badges */
+.footer-security-badges {
+    color: #e2e8f0 !important;
+}
+
+.footer-security-badges i {
+    color: #fbbf24;
+}
+
+/* Mobile footer visibility */
+@media (max-width: 768px) {
+
+    .footer-links a {
+        color: #ffffff !important;
+        font-size: 14px;
+        padding: 4px 0;
+    }
+
+    .footer-heading {
+        font-size: 16px;
+    }
+
+    .footer-address,
+    .footer-hours {
+        font-size: 13px;
+        line-height: 1.8;
+    }
+}
